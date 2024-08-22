@@ -1,0 +1,135 @@
+{
+	"rows": [{
+			"name": "Opening",
+			"information": "Exun 2021’s Opening Ceremony",
+			"date": "2024-08-22T12:00:00"
+		},
+
+		{
+			"name": "Make-A-Thon Pitching",
+			"information": " Pitch your solutions to the judges in the time allotted. Qualifiers from round 1 will compete on a web-based simulator based on the Arduino programming API to have the fastest time.",
+			"date": "2024-08-22T15:00:00"
+		},
+
+		{
+			"name": "Open Quiz Prelims",
+			"information": "This event is an enigmatic quiz based on the field of computers, technology, and recent events in the world of IT - a battleground for seasoned quizzers to test their wits under extreme pressure.",
+			"date": "2024-08-22T16:00:00"
+		},
+
+		{
+			"name": "Lockout Quarterfinals",
+			"information": "Lockout will be held as a knockout tournament where two contestants will compete head-to-head with one another and only the first contestant to solve each problem gets the points.",
+			"date": "2024-09-23T12:00:00"
+		},
+
+		{
+			"name": "Junior Quiz Prelims",
+			"information": "Just like an open quiz, this event is an enigmatic quiz based on the field of computers, technology, and recent events in the world of IT - a battleground for rising quizzers to test their wits under extreme pressure.",
+			"date": "2024-08-23T14:00:00"
+		},
+
+		{
+			"name": "Crossword Prelims",
+			"information": "Be ready for a cryptic crossword based on wit, presence of mind, and an excellent sense of humor (hint!). The answers will be related to the fields of technology, computers, and recent events in the field of IT. Get ready for some high-frequency thinking!",
+			"date": "2024-08-23T19:00:00"
+		},
+
+		{
+			"name": "Lockout Semifinals",
+			"information": "Lockout will be held as a knockout tournament where two contestants will compete head-to-head with one another and only the first contestant to solve each problem gets the points.",
+			"date": "2024-08-24T12:00:00"
+		},
+
+
+		{
+			"name": "Lockout Finals",
+			"information": "Lockout will be held as a knockout tournament where two contestants will compete head-to-head with one another and only the first contestant to solve each problem gets the points.",
+			"date": "2024-08-24T13:00:00"
+		},
+
+		{
+			"name": "Group Discussion",
+			"information": "Participants have to have an opinion on a given prompt and give the reasoning for the same. They will have to combine excellent formation of arguments and impeccable fluency in order to win.",
+			"date": "2024-08-24T15:00:00"
+		},
+
+		{
+			"name": "Surprise",
+			"information": "The surprise event will consist of a series of tasks, whose details, as the name implies, are a surprise and will be disclosed on the day of the event itself.",
+			"date": "2024-08-24T16:00:00"
+		},
+
+		{
+			"name": "Cubing Prelims",
+			"information": "It’s always the small pieces that make the big picture. Participants can individually compete in 3 events: Pyraminx, 2x2 Cubing and 3X3 Cubing.",
+			"date": "2024-08-25T12:00:00"
+		},
+
+		{
+			"name": "Surprise",
+			"information": "The surprise event will consist of a series of tasks, whose details, as the name implies, are a surprise and will be disclosed on the day of the event itself.",
+			"date": "2024-08-25T16:00:00"
+		},
+
+		{
+			"name": "Turing",
+			"information": "Participants will be judged on the accuracy, as well as the clarity of their solutions, along with the manner in which they describe the linguistic phenomena taking place.",
+			"date": "2024-08-25T18:00:00"
+		},
+
+		{
+			"name": "DS+ Gaming",
+			"information": "Games for the prelims will be revealed 2 days before the competition on the Discord server. The platform for the entire gaming event will be PC only. Participants are required to use a PC for all the three rounds.",
+			"date": "2024-08-26T12:00:00"
+		},
+
+		{
+			"name": "Cubing Finals",
+			"information": "It’s always the small pieces that make the big picture. Participants can individually compete in 3 events: Pyraminx, 2x2 Cubing and 3X3 Cubing.",
+			"date": "2024-08-26T12:00:00"
+		},
+
+		{
+			"name": "Group Discussion",
+			"information": "Participants have to have an opinion on a given prompt and give the reasoning for the same. They will have to combine excellent formation of arguments and impeccable fluency in order to win.",
+			"date": "2024-08-26T14:00:00"
+		},
+
+		{
+			"name": "Surprise",
+			"information": "The surprise event will consist of a series of tasks, whose details, as the name implies, are a surprise and will be disclosed on the day of the event itself.",
+			"date": "2024-08-26T16:00:00"
+		},
+
+		{
+			"name": "Junior Quiz Finals",
+			"information": "Just like an open quiz, this event is an enigmatic quiz based on the field of computers, technology, and recent events in the world of IT - a battleground for rising quizzers to test their wits under extreme pressure.",
+			"date": "2024-08-27T13:00:00"
+		},
+
+		{
+			"name": "Hackathon Finals",
+			"information": "The Hackathon is a competitive computer programming event which requires exceptional collaborative skills. It will include sprint-like rounds which will be helped by a well-rounded team of developers with a plethora of skills.",
+			"date": "2024-08-27T16:00:00"
+		},
+
+		{
+			"name": "Challenge Programming",
+			"information": "Participants will have to complete fun and unconventional programming tasks to maximise their score in the given time.",
+			"date": "2024-08-27T18:00:00"
+		},
+
+		{
+			"name": "Spacetech Semifinals",
+			"information": "If you are interested in space science, a unique flavour of problem solving, or interesting applications of technology, be sure to give Spacetech a go!",
+			"date": "2024-08-28T12:00:00"
+		},
+
+		{
+			"name": "Designathon Finals",
+			"information": "The participants will be provided with design prompts, and the team members, consisting of 2D and/or 3D designers, will be required to make use of their skills and tackle the given problems creatively.",
+			"date": "2024-08-28T13:00:00"
+		}
+	]
+}
