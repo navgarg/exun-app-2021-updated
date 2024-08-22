@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import './constants.dart';
 
+
 class FirebaseNotifications {
   FirebaseMessaging? _firebaseMessaging;
 

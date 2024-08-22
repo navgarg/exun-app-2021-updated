@@ -1,3 +1,4 @@
+import 'package:exun_app_21/screens/login_screen.dart';
 import 'package:exun_app_21/screens/schedule_screen.dart';
 
 import '../firebase_notification_handler.dart';
@@ -32,7 +33,10 @@ class _TabsScreenState extends State<TabsScreen> {
       icon: Icons.home,
     ),
     Page(
-      page: const ScheduleScreen(),
+      page: const LoginScreen(),
+     //todo: uncomment and delete loginscreen()
+     // page: const ScheduleScreen(),
+
       title: "Schedule",
       icon: Icons.calendar_today,
     ),
