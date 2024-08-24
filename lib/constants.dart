@@ -15,9 +15,11 @@ class KColors {
 const FCM_TOPIC = "all_devices";
 const bool development = false;
 const String devUrl = '192.168.0.191:3000';
-const String prodUrl = 'notifs.exun.co';
+const String prodUrl = 'raw.githubusercontent.com';
+// const String prodUrl = 'notifs.exun.co';
 const String baseUrl = development ? devUrl : prodUrl;
-const String getNotifsUrl = "/notifications/list/all";
+const String getNotifsUrl = '/navgarg/ExunEvents2021/main/notify.json';
+// const String getNotifsUrl = "/notifications/list/all";
 const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/exun-app-2021-updated/master/events.json";
 // const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/ExunEvents/main/events.json";
 

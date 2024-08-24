@@ -33,9 +33,9 @@ class _TabsScreenState extends State<TabsScreen> {
       icon: Icons.home,
     ),
     Page(
-      page: const LoginScreen(),
+      // page: const LoginScreen(),
      //todo: uncomment and delete loginscreen()
-     // page: const ScheduleScreen(),
+     page: const ScheduleScreen(),
 
       title: "Schedule",
       icon: Icons.calendar_today,
@@ -80,7 +80,7 @@ class _TabsScreenState extends State<TabsScreen> {
         centerTitle: true,
       ),
       body: _pages[_selectedPageIndex].page,
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar( //todo: remove bottom nav
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         showUnselectedLabels: false,

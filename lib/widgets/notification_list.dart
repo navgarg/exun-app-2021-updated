@@ -64,6 +64,7 @@ class _NotificationListState extends State<NotificationList> {
 
    Future<void> fetchNotifs() async {
     // await openBox();
+     print("notif loaded?");
     print(_notifLoaded);
     if (!_notifLoaded) {
       try {
@@ -75,10 +76,14 @@ class _NotificationListState extends State<NotificationList> {
         print("value");
         var parsed = json.decode(value.body);
         print(parsed);
+        print(parsed["statusCode"]);
         if (parsed["statusCode"] == "S10001") {
+          print("in if");
+          print(parsed["rows"]);
           _notifications = parsed['rows']
               .map<Notification>((json) => Notification.fromJson(json))
               .toList();
+          print(_notifications);
           _notifications.sort((a, b) {
             Notification x = a;
             Notification y = b;
@@ -87,6 +92,7 @@ class _NotificationListState extends State<NotificationList> {
           // await putData(_notifications);
           // filteredNotifs = _notifications;
           _notifLoaded = true;
+          print(_notifLoaded);
         }
         setState(() {});
       } catch (e) {
