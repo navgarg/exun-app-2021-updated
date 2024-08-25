@@ -19,6 +19,7 @@ class ScheduleScreen extends StatefulWidget {
   _ScheduleScreenState createState() => _ScheduleScreenState();
 }
 
+//todo: check why update occurs after 2nd click
 List<Schedule> _schedules = <Schedule>[];
 DateTime start = DateTime(2022, 1, 14);
 
