@@ -76,7 +76,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                      ),
                                      // initialDisplayDate: DateTime(2022, 1, 14),
                                      minDate: start,
-                                     //todo: remove week header
                                      scheduleViewSettings: ScheduleViewSettings(
                                        // appointmentTextStyle: TextStyle(
                                        //     fontWeight: FontWeight.w700,
@@ -297,7 +296,7 @@ class ScheduleDataSource extends CalendarDataSource {
 
   @override
   Color getColor(int index){
-    return Color(0xFFffffff); //todo: change colors
+    return Color(0xFFffffff);
   }
 
   String getContent(int index) {

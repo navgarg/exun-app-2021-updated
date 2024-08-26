@@ -10,11 +10,10 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  print("hi");
   await Firebase.initializeApp(
     name: 'exun-2021',
     options: DefaultFirebaseOptions.currentPlatform,
-   // options: DefaultFirebaseOptions.currentPlatform, //todo:check??
+   // options: DefaultFirebaseOptions.currentPlatform,
   );
   print("after initialise");
   runApp(const MyApp());

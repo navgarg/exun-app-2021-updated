@@ -19,6 +19,7 @@ const String prodUrl = 'raw.githubusercontent.com';
 // const String prodUrl = 'notifs.exun.co';
 const String baseUrl = development ? devUrl : prodUrl;
 const String getNotifsUrl = '/navgarg/ExunEvents2021/main/notify.json';
+const String getTalksUrl = '/navgarg/ExunEvents2021/main/talks.json';
 // const String getNotifsUrl = "/notifications/list/all";
 const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/exun-app-2021-updated/master/events.json";
 // const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/ExunEvents/main/events.json";
