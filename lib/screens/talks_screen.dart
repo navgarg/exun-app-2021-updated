@@ -16,24 +16,34 @@ class TalksScreen extends StatefulWidget{
 class Talk {
   String title;
   String videoUrl;
-  String about;
+  String image;
+  String aboutTalk;
+  String aboutSpeaker;
+  String speaker;
+
 
   Talk(
-      this.title, this.videoUrl, this.about
+      this.title, this.videoUrl, this.aboutSpeaker, this.image, this.aboutTalk, this.speaker
       );
 
   factory Talk.fromJson(Map<String, dynamic> json) {
     return Talk(
       json['title'],
       json['videoUrl'],
-      json['about'],
+      json['aboutSpeaker'],
+      json['image'],
+      json['aboutTalk'],
+      json['speaker']
     );
   }
 
   Map<String, dynamic> toJson() => {
     'title': title,
     'videoUrl': videoUrl,
-    'about': about,
+    'aboutTalk': aboutTalk,
+    'image': image,
+    'aboutSpeaker': aboutSpeaker,
+    'speaker': speaker
   };
 }
 
@@ -124,8 +134,11 @@ class _TalksScreenState extends State<TalksScreen> {
             Talk talk = _talks[index];
             return TalksTile(
               title: talk.title,
-              about: talk.about,
-              videoUrl: talk.videoUrl
+              aboutSpeaker: talk.aboutSpeaker,
+              videoUrl: talk.videoUrl,
+              aboutTalk: talk.aboutTalk,
+              speaker: talk.speaker,
+              image: talk.image
             );
           },
         ),

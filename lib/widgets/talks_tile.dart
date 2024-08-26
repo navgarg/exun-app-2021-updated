@@ -10,12 +10,19 @@ late YoutubePlayerController _controller;
 class TalksTile extends StatelessWidget {
   final String title;
   final String videoUrl;
-  final String about;
+  final String image;
+  final String aboutTalk;
+  final String aboutSpeaker;
+  final String speaker;
+
 
   const TalksTile({
     Key? key,
     required this.title,
-    required this.about,
+    required this.aboutTalk,
+    required this.image,
+    required this.aboutSpeaker,
+    required this.speaker,
     required this.videoUrl,
   }) : super(key: key);
 
@@ -24,12 +31,16 @@ class TalksTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String icon = "circuit";
+    // String icon = "circuit";
+
     final videoID = YoutubePlayer.convertUrlToId(videoUrl);
+    print("url:");
+    print(videoUrl);
+    print(videoID);
     _controller = YoutubePlayerController(
         initialVideoId: videoID!,
         flags: YoutubePlayerFlags(
-          autoPlay: true,
+          autoPlay: false,
           enableCaption: true,
           showLiveFullscreenButton: true,
         )
@@ -43,7 +54,7 @@ class TalksTile extends StatelessWidget {
               color: KColors.primaryText,
             ),
           ),
-          subtitle: Text("$about",
+          subtitle: Text("$aboutTalk",
             style: const TextStyle(
               fontSize: 13,
               color: KColors.bodyText,
@@ -58,17 +69,19 @@ class TalksTile extends StatelessWidget {
                     body: Padding(
                       padding: EdgeInsets.all(20.0),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("$title",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: KColors.primaryText,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: KColors.primaryText,
+                              ),
                             ),
-                          ),
+
                           SizedBox(
-                            height: 25.0,
+                            height: 35.0,
                           ),
                           YoutubePlayer(
                               controller: _controller,
@@ -78,62 +91,40 @@ class TalksTile extends StatelessWidget {
                               },
                             ),
                           SizedBox(
-                            height: 25.0,
+                            height: 35.0,
                           ),
-                          // Text("About the Speakers: ",
-                          // style: TextStyle(
-                          //   fontSize: 16,
-                          //   color: KColors.primaryText
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: 15.0,
-                          // ),
-                          //
-                          // Expanded(
-                          //     child: ListView.builder(
-                          //         scrollDirection: Axis.horizontal,
-                          //         itemBuilder: (context, index){
-                          //         return Padding(
-                          //             padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                          //             child: GestureDetector(
-                          //               onTap: () async {
-                          //                 return showDialog(
-                          //                     context: context,
-                          //                     builder: (BuildContext context) {
-                          //                       return NotificationDialog(
-                          //                           heading: "$title",
-                          //                           content: "$about");
-                          //
-                          //                     });
-                          //               },
-                          //
-                          //               child: ListTile(
-                          //                 title: Text("$title",
-                          //                   style: TextStyle(
-                          //                     fontSize: 16,
-                          //                     color: KColors.primaryText,
-                          //                     fontWeight: FontWeight.bold,
-                          //                   ),
-                          //                 ),
-                          //                 subtitle: Text("$about",
-                          //                   style: TextStyle(
-                          //                     fontSize: 12,
-                          //                   ),
-                          //                 ),
-                          //               isThreeLine: true,
-                          //               shape: RoundedRectangleBorder(
-                          //                 side: const BorderSide(color: KColors.border, width: 1),
-                          //                 borderRadius: BorderRadius.circular(8.0),
-                          //               ),
-                          //               ),
-                          //
-                          //             )
-                          //         );
-                          //
-                          //     }
-                          // )
-                          // )
+                          Text("About the Speaker: ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: KColors.primaryText
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15.0,
+                          ),
+
+                          ListTile(
+                            titleAlignment: ListTileTitleAlignment.center,
+                            leading: Image.asset('assets/$image.png'),
+                            title: Text("$speaker",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: KColors.primaryText,
+                              ),),
+                            subtitle: Text(
+                              "$aboutSpeaker",
+                              style: const TextStyle(
+                                color: KColors.bodyText,
+                                fontSize: 13.0,
+                              ),
+                            ),
+                            isThreeLine: true,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(color: KColors.border, width: 1),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
                         ],
                       ),
                     )

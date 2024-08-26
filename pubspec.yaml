@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.19.0
   firebase_auth: ^4.16.0
   firebase_ui_auth: ^1.13.0
+  firebase_database: ^10.5.7
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,10 @@ flutter:
   assets:
     - assets/circuit.png
     - assets/logo.png
+    - assets/aurojit.png
+    - assets/monojit.png
+    - assets/shashwat.png
+    - assets/tushit.png
     - assets/codechef.png
     - assets/plaksha.png
 
