@@ -1,19 +1,18 @@
 # exun_app_21
+Basic App originally made for Exun event 2021. Revamped to include more features.
 
-## Todo
+## Features
 
-- [x] Setup App
-- [x] Home Screen
-  - [x] Notification Listing (Dummy Data)
-  - [x] Notification Listing (Fetch Data from API)
-- [x] Schedule Screen
-  - [x] Listing with Dummy Data
-  - [x] Setting up Schedule data on a backend (using raw github content like last year)
-  - [x] Fetch schedule data
-- [ ] Leaderboard
-  - [ ] Listing with Dummy Data
-  - [ ] Get data from API
-- [ ] About Screen
-  - [x] Setup Screen
-  - [ ] Add right links
-  - [ ] Add right sponsor images
+### Schedule
+- Screen to show upcoming events.
+- Uses `SfCalendar` to show scheduled events on calendar.
+- Gets event data from .json file.
+
+### Exun Talks
+- Shows a list of past Exun Talks.
+- Uses `YoutubePlayer` to embed YouTube videos.
+- Gets talks data from .json file
+
+### Notifications
+- Shows list of important notifications.
+- Gets notifs data from .json file.
