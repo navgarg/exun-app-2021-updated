@@ -1,5 +1,7 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exun_app_21/constants.dart';
-import 'package:exun_app_21/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +12,16 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // final firebaseOptions = DefaultFirebaseOptions.currentPlatform.copyWith(
+  //   apiKey: firebaseApiKey,
+  // );
   await Firebase.initializeApp(
     name: 'exun-2021',
-    options: DefaultFirebaseOptions.currentPlatform,
-   // options: DefaultFirebaseOptions.currentPlatform,
+    // options: firebaseOptions,
+   options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseFirestore.instance.settings = Settings(
+    persistenceEnabled: true,
   );
   print("after initialise");
   runApp(const MyApp());

@@ -27,7 +27,8 @@ class TalksTile extends StatelessWidget {
   }) : super(key: key);
 
 
-  //todo: check overflow on full screen.
+  //todo: check overflow problem on full screen and otherwise.
+  //todo: check why same vid is being repeated.
 
   @override
   Widget build(BuildContext context) {
