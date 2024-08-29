@@ -34,11 +34,13 @@ class _MembersScreenState extends State<MembersScreen>{
 
   final _firestore = FirebaseFirestore.instance;
 
-  Future<List<Member>> getMembers () async {
+  Future<List<List<Member>>> getMembers () async {
     print("in getMembers");
     //todo: update wrt new collection.
     final snapshot = await _firestore.collection(membersCollectionRef).get();
-    final membersList = snapshot.docs.map((e) => Member.fromSnapshot(e)).toList();
+    //todo: check??
+    final List<List<Member>> membersList = snapshot.docs.map((e) => Member.fromSnapshot(e)).cast<List<Member>>().toList();
+    print("members List:");
     print(membersList);
     return membersList;
   }
@@ -46,13 +48,13 @@ class _MembersScreenState extends State<MembersScreen>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder<List<Member>>(
+      child: FutureBuilder<List<List<Member>>>(
           future: getMembers(),
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.done){
               if (snapshot.hasData) {
                 print(snapshot);
-                List<Member> membersList = snapshot.data as List<Member>;
+                List<List<Member>> membersList = snapshot.data as List<List<Member>>;
                 print("membersList");
                 print(membersList);
                 return Column(
@@ -66,14 +68,14 @@ class _MembersScreenState extends State<MembersScreen>{
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(membersList[index].name),
+                                Text(membersList[0].toString()),
                                 ListView.builder(
                                     itemCount: 2,
                                     physics: ClampingScrollPhysics(),
                                     shrinkWrap: true,
                                     itemBuilder: (BuildContext context,
-                                        int index) {
-                                      return Text(membersList[index].designation);
+                                        int i) {
+                                      return Text(membersList[index][i].name);
                                     }),
                               ],
                             );

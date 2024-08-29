@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exun_app_21/constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -18,22 +19,28 @@ class Notification {
   String title;
   String subtitle;
   String message;
-  String postedBy;
-  String type;
   DateTime createdAt;
 
   Notification(
-      this.title, this.subtitle, this.message, this.postedBy, this.type,
-      {required this.createdAt});
+      {required this.title, required this.message, required this.subtitle, required this.createdAt});
 
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
-      json['title'],
-      json['subtitle'],
-      json['message'],
-      json['posted_by'],
-      json['type'],
+      title: json['title'],
+      subtitle: json['subtitle'],
+      message: json['message'],
       createdAt: DateTime.parse(json['created_at']),
+    );
+  }
+
+  factory Notification.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
+    final data = document.data()!;
+    return Notification(
+      title: data["title"],
+      subtitle: data["subtitle"],
+      message: data["message"],
+      createdAt: data["created_at"].toDate(),
+
     );
   }
 
@@ -41,14 +48,13 @@ class Notification {
         'title': title,
         'subtitle': subtitle,
         'message': message,
-        'posted_by': postedBy,
-        'type': type,
         'created_at': createdAt.toString(),
       };
 }
 
 class _NotificationListState extends State<NotificationList> {
   List<Notification> _notifications = [];
+  final _firestore = FirebaseFirestore.instance;
   bool _notifLoaded = false;
 
   @override
@@ -67,55 +73,48 @@ class _NotificationListState extends State<NotificationList> {
      print("notif loaded?");
     print(_notifLoaded);
     if (!_notifLoaded) {
-      try {
-        var uri = generateUrl(getNotifsUrl);
-        print(uri);
-        var value = await get(uri);
-        print("value");
-        print(value);
-        print("value");
-        var parsed = json.decode(value.body);
-        print(parsed);
-        print(parsed["statusCode"]);
-        if (parsed["statusCode"] == "S10001") {
-          print("in if");
-          print(parsed["rows"]);
-          _notifications = parsed['rows']
-              .map<Notification>((json) => Notification.fromJson(json))
-              .toList();
-          print(_notifications);
-          _notifications.sort((a, b) {
-            Notification x = a;
-            Notification y = b;
-            return y.createdAt.compareTo(x.createdAt);
-          });
-          // await putData(_notifications);
-          // filteredNotifs = _notifications;
-          _notifLoaded = true;
-          print(_notifLoaded);
-        }
-        setState(() {});
-      } catch (e) {
-        _notifications = [];
-        print("error");
-        print(e);
-        print("error");
-        // for (var j in box.toMap().values.toList()) {
-        //   Map<String, dynamic> x = new Map.from(j);
-        //   notifs.add(Notification.fromJson(x));
-        // }
-        // filteredNotifs = notifs;
+      // try {
+        final snapshot = await _firestore.collection("notifications").get();
+        print("snapshot");
+        print(snapshot);
+        print(snapshot.docs);
+        _notifications = snapshot.docs.map((e) => Notification.fromSnapshot(e)).toList();
+        print(_notifications);
+        _notifications.sort((a, b) {
+          Notification x = a;
+          Notification y = b;
+          return y.createdAt.compareTo(x.createdAt);
+        });
+        // await putData(_notifications);
+        // filteredNotifs = _notifications;
         _notifLoaded = true;
-
+        print(_notifLoaded);
+        // }
         setState(() {});
-      }
+      // } catch (e) {
+      //   _notifications = [];
+      //   print("error");
+      //   print(e);
+      //   print("error");
+      //   for (var j in box.toMap().values.toList()) {
+      //     Map<String, dynamic> x = new Map.from(j);
+      //     notifs.add(Notification.fromJson(x));
+      //   }
+      //   // filteredNotifs = notifs;
+      //   _notifLoaded = true;
+      //
+      //   setState(() {});
+      // }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference notifs_ref = FirebaseFirestore.instance.collection('notifications');
+
     return FutureBuilder(
-      future: fetchNotifs(),
+      // future: fetchNotifs(),
+      future: notifs_ref.get(),
       builder: (ctx, snapshot) =>
           snapshot.connectionState == ConnectionState.waiting
               ? Center(

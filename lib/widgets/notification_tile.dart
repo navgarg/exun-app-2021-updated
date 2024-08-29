@@ -38,6 +38,7 @@ class NotificationTile extends StatelessWidget {
           );
         },
         child: ListTile(
+          titleAlignment: ListTileTitleAlignment.center,
           leading: Image.asset('assets/$icon.png'),
           title: Text("$heading",
           style: const TextStyle(
