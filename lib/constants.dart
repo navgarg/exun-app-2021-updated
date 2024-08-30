@@ -22,6 +22,7 @@ const String firebaseApiKey = "96ce13ad5a9ea15ef8e13c542ca806424d571734";
 const String baseUrl = development ? devUrl : prodUrl;
 const String getNotifsUrl = '/navgarg/ExunEvents2021/main/notify.json';
 const String getTalksUrl = '/navgarg/ExunEvents2021/main/talks.json';
+const String getMembersUrl = '/exunclan/website-2022/main/data/members.json';
 // const String getNotifsUrl = "/notifications/list/all";
 const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/exun-app-2021-updated/master/events.json";
 // const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/ExunEvents/main/events.json";

@@ -1,24 +1,38 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exun_app_21/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class Member {
   String name;
-  String designation;
+  String role;
+  String? image;
 
-  Member({required this.name, required this.designation});
+  Member(this.image, {required this.name, required this.role});
 
-  factory Member.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
-    final data = document.data()!;
+  factory Member.fromJson(Map<String, dynamic> json) {
     return Member(
-      name: data["name"],
-      designation: data["designation"]
+      json["image"],
+      name: json["name"],
+      role: json["role"],
     );
   }
-  // Map<String, dynamic> toJson() => {
-  //   'name': name,
-  //   'designation': designation
-  // };
+}
+
+class MembersList {
+  String year;
+  List<Member> members;
+
+  MembersList({required this.year, required this.members});
+
+  factory MembersList.fromJson(Map<String, dynamic> json) {
+    return MembersList(
+      year: json["year"],
+      members: json["members"], //todo: check??
+    );
+  }
 }
 
 class MembersScreen extends StatefulWidget{
@@ -32,69 +46,81 @@ class MembersScreen extends StatefulWidget{
 
 class _MembersScreenState extends State<MembersScreen>{
 
-  final _firestore = FirebaseFirestore.instance;
+  List<MembersList> _membersList = [];
+  List<Member> _members = [];
+  bool _memberLoaded = false;
 
-  Future<List<List<Member>>> getMembers () async {
-    print("in getMembers");
-    //todo: update wrt new collection.
-    final snapshot = await _firestore.collection(membersCollectionRef).get();
-    //todo: check??
-    final List<List<Member>> membersList = snapshot.docs.map((e) => Member.fromSnapshot(e)).cast<List<Member>>().toList();
-    print("members List:");
-    print(membersList);
-    return membersList;
+  Future<void> getMembers() async {
+    // await openBox();
+    print("members loaded?");
+    print(_memberLoaded);
+    if (!_memberLoaded) {
+      try {
+        var uri = generateUrl(getMembersUrl);
+        print(uri);
+        var value = await get(uri);
+        print("value");
+        print(value);
+        print("value");
+        var parsed = json.decode(value.body);
+        print(parsed);
+        print(parsed.map((e) => Member.fromJson(e)).toList());
+        _membersList = List<MembersList>.from(parsed.map((e) => Member.fromJson(e)).toList());
+        // var list = parsed.map<MembersList>((json) => MembersList.fromJson(json)).toList();
+        // _membersList = List<MembersList>.from(list);
+        // if (parsed["statusCode"] == "S10001") {
+          print(_membersList);
+          // _members = parsed['rows']
+          //     .map<Member>((json) => Member.fromJson(json))
+          //     .toList();
+          // print(_members);
+          _memberLoaded = true;
+          print(_memberLoaded);
+        // }
+        setState(() {});
+      } catch (e) {
+        _members = [];
+        print("error");
+        print(e);
+        print("error");
+        _memberLoaded = true;
+
+        setState(() {});
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FutureBuilder<List<List<Member>>>(
-          future: getMembers(),
-          builder: (context, snapshot){
-            if (snapshot.connectionState == ConnectionState.done){
-              if (snapshot.hasData) {
-                print(snapshot);
-                List<List<Member>> membersList = snapshot.data as List<List<Member>>;
-                print("membersList");
-                print(membersList);
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(membersList[0].toString()),
-                                ListView.builder(
-                                    itemCount: 2,
-                                    physics: ClampingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder: (BuildContext context,
-                                        int i) {
-                                      return Text(membersList[index][i].name);
-                                    }),
-                              ],
-                            );
-                          }),
-                    )
-                  ],
-                );
-              } else if (snapshot.hasError){
-                return Center(child: Text(snapshot.error.toString()),);
-              } else {
-                return Center(child: Text("something went wrong!"),);
-              }
-            }
-            else{
-              return const Center(child: CircularProgressIndicator(),);
-            }
-          })
-          // child:
-    );
-  }
+    return FutureBuilder(
+      future: getMembers(),
+      builder: (ctx, snapshot) =>
+      snapshot.connectionState == ConnectionState.waiting
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+          : RefreshIndicator(
+        onRefresh: () {
+          _memberLoaded = false;
+          return getMembers();
+        },
+        child: ListView.builder(
+          itemCount: _members.length,
+          itemBuilder: (BuildContext context, int index) {
+            Member member = _members[index];
+            //todo: update
+            return Text("data");
+            // return TalksTile(
+            //     title: talk.title,
+            //     aboutSpeaker: talk.aboutSpeaker,
+            //     videoUrl: talk.videoUrl,
+            //     aboutTalk: talk.aboutTalk,
+            //     speaker: talk.speaker,
+            //     image: talk.image
+            // );
+          },
+        ),
+      ),
+    );  }
 
 }
