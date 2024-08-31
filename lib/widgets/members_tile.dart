@@ -52,7 +52,6 @@ class MembersTile extends StatelessWidget{
                           style: const TextStyle(
                             color: KColors.bodyText,
                             fontSize: 13.0,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         shape: RoundedRectangleBorder(
