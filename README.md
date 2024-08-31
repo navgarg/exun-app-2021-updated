@@ -1,10 +1,10 @@
 # exun_app_21
-Basic App originally made for Exun event 2021. Revamped to include more features.
+Basic App originally made for Exun event 2021. Revamped to include more features and increase usability.
 
 ## Features
 
 ### Schedule
-- Screen to show upcoming events.
+- Shows upcoming events.
 - Uses `SfCalendar` to show scheduled events on calendar.
 - Gets event data from .json file.
 
@@ -18,11 +18,13 @@ Basic App originally made for Exun event 2021. Revamped to include more features
 - Gets notifs data from Firebase Cloud Firestore.
 
 ### Members
-- Shows list of current Exun Clan members.
 - Uses nested `ListView.builder` for displaying all members from different classes.
 - Gets members data from .json file.
 
 ### Alumni
-- Shows list of all Exun Clan alumni.
 - Uses nested `ListView.builder` for displaying all alumni from different years.
 - Gets alumni data from .json file.
+
+### Faculty
+- Uses nested `ListView.builder` for displaying all faculty members.
+- Gets faculty data from .json file.

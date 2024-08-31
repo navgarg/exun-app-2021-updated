@@ -25,6 +25,8 @@ const String getTalksUrl = '/navgarg/ExunEvents2021/main/talks.json';
 const String getMembersUrl = '/exunclan/website-2022/main/data/members.json';
 const String getAlumsUrl = '/navgarg/ExunEvents2021/main/alumni.json';
 const String getFacultyUrl = '/navgarg/ExunEvents2021/main/faculty.json';
+const String getContactsUrl = '/exunclan/website-2022/main/data/contacts.json';
+
 const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/exun-app-2021-updated/master/events.json";
 // const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/ExunEvents/main/events.json";
 
@@ -32,27 +34,6 @@ const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/exun-ap
 Uri generateUrl(String path) {
   return development ? Uri.http(baseUrl, path) : Uri.https(baseUrl, path);
 }
-// var listOfEvents = [
-//   Event(
-//       name: 'Hardware',
-//       timing: '0000HRS',
-//       date: DateTime(2020, 11, 15),
-//       information:
-//       'Power up your cores and overclock that grey matter, because you’re in for some serious hands-on competition. Identify components belonging to a plethora of devices and show off your know-how about hardware.'),
-//   Event(
-//       name: 'ExML',
-//       timing: '1800HRS',
-//       date: DateTime(2020, 11, 15),
-//       information:
-//       'Tired of the usual plug-and-chug in contests? Look no further, we bring you a cross-disciplinary Machine Learning event where there will be a rich variety of unique yet equally mesmerising machine learning paradigms on display and in use.'),
-// ];
-//
-// bool testing = false;
-//
-// final exunStartDate = DateTime(2020, 11, 15);
-// final exunEndDate = DateTime(2020, 11, 22)
-//     .add(Duration(days: 0, hours: 23, minutes: 59, seconds: 59));
-//
 // // Colors
 // Color kBlue = Color(0xFF2977F5);
 // Color kGrey = Color(0xFF828282);
@@ -95,18 +76,4 @@ Uri generateUrl(String path) {
 //   return state;
 // }
 //
-// class Event {
-//   Event(
-//       {required this.name,
-//         required this.timing,
-//         required this.date,
-//         required this.information,
-//         // required this.timeLeft
-//       });
-//
-//   final String name;
-//   final String timing;
-//   final DateTime date;
-//   final String information;
-//   // Duration timeLeft;
 // }
