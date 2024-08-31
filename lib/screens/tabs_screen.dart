@@ -7,6 +7,7 @@ import '../firebase_notification_handler.dart';
 import 'package:flutter/material.dart';
 import './home_screen.dart';
 import './about_screen.dart';
+import 'alumni_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
@@ -38,7 +39,7 @@ class _TabsScreenState extends State<TabsScreen> {
       // page: const LoginScreen(),
      //todo: uncomment and delete loginscreen()
      //page: const ScheduleScreen(),
-      page: const MembersScreen(),
+      page: const AlumniScreen(),
       title: "Schedule",
       icon: Icons.calendar_today,
     ),

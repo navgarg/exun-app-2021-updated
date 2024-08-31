@@ -27,9 +27,15 @@ class MembersList {
   MembersList({required this.year, required this.members});
 
   factory MembersList.fromJson(Map<String, dynamic> json) {
+    // if (json["year"] !is String ) {
+    //   throw FormatException("year is not a string");
+    // }
+    // if (json["members"] !is List<Member> ) {
+    //   throw FormatException("member is not a list");
+    // }
     final membersData = json["members"] as List<dynamic>;
     return MembersList(
-      year: json["year"],
+      year: json["year"] ,
       members: membersData.map((e) => Member.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
@@ -47,7 +53,6 @@ class MembersScreen extends StatefulWidget{
 class _MembersScreenState extends State<MembersScreen>{
 
   List<MembersList> _membersList = [];
-  List<Member> _members = [];
   bool _memberLoaded = false;
 
   Future<void> getMembers() async {
@@ -79,7 +84,6 @@ class _MembersScreenState extends State<MembersScreen>{
         // }
         setState(() {});
       } catch (e) {
-        _members = [];
         print("error");
         print(e);
         print("error");

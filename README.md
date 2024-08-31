@@ -21,3 +21,8 @@ Basic App originally made for Exun event 2021. Revamped to include more features
 - Shows list of current Exun Clan members.
 - Uses nested `ListView.builder` for displaying all members from different classes.
 - Gets members data from .json file.
+
+### Alumni
+- Shows list of all Exun Clan alumni.
+- Uses nested `ListView.builder` for displaying all alumni from different years.
+- Gets alumni data from .json file.
