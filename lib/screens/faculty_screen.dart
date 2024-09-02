@@ -28,7 +28,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
     print(_facultyLoaded);
     if (!_facultyLoaded) {
       try {
-        var uri = generateUrl(getFacultyUrl); //todo: change
+        var uri = generateUrl(getFacultyUrl);
         print(uri);
         var value = await get(uri);
         print("value");

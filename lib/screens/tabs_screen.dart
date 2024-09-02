@@ -1,6 +1,6 @@
 import 'package:exun_app_21/screens/contact_screen.dart';
-import 'package:exun_app_21/screens/login_screen.dart';
 import 'package:exun_app_21/screens/members_screen.dart';
+import 'package:exun_app_21/screens/profile_screen.dart';
 import 'package:exun_app_21/screens/schedule_screen.dart';
 import 'package:exun_app_21/screens/talks_screen.dart';
 
@@ -41,7 +41,7 @@ class _TabsScreenState extends State<TabsScreen> {
       // page: const LoginScreen(),
      //todo: uncomment and delete loginscreen()
      //page: const ScheduleScreen(),
-      page: const ContactsScreen(),
+      page: ProfileScreen(),
       title: "Schedule",
       icon: Icons.calendar_today,
     ),

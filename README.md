@@ -28,3 +28,8 @@ Basic App originally made for Exun event 2021. Revamped to include more features
 ### Faculty
 - Uses nested `ListView.builder` for displaying all faculty members.
 - Gets faculty data from .json file.
+
+### Contacts
+- Gets contacts data from .json file.
+- Opens queries page when `ListTile` is clicked. 
+- Uses `email_validator` for validation of emails. Writes queries with correct emails to Firestore.

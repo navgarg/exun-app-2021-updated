@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../constants.dart';
 
@@ -21,10 +21,9 @@ class _ContactQueryScreenState extends State<ContactQueryScreen>{
   final _queryController = TextEditingController();
   final _firestore = FirebaseFirestore.instance;
 
-  String displayText = "";
+  // String displayText = "";
 
-  void firebaseCall(String email){
-    if (EmailValidator.validate(email)){
+  void firebaseCall(){
       final query = <String, String>{
         "email_to": _emailToController.text,
         "email_from": _emailFromController.text,
@@ -36,23 +35,15 @@ class _ContactQueryScreenState extends State<ContactQueryScreen>{
       _emailFromController.value = TextEditingValue(text: "");
       _queryController.value = TextEditingValue(text: "");
       _subjectController.value = TextEditingValue(text: "");
-      setState( () {
-        displayText = "Successfully submitted query!";
-      });
-    }
-    else {
-      setState( () {
-        displayText = "Invalid email!";
-      });
-    }
-
-
+      // setState( () {
+      //   displayText = "Successfully submitted query!";
+      // });
+      Fluttertoast.showToast(msg: "Successfully submitted query!");
   }
 
   @override
   Widget build(BuildContext context) {
     _emailToController.value = TextEditingValue(text: widget.email_to);
-    // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -101,8 +92,9 @@ class _ContactQueryScreenState extends State<ContactQueryScreen>{
                 ),
               ),
               SizedBox(
-                height: 50.0,
+                height: 100.0,
               ),
+              //todo: add field for submitting files.
             ],
           ),
             Column(
@@ -111,7 +103,22 @@ class _ContactQueryScreenState extends State<ContactQueryScreen>{
               children: [
                 ElevatedButton(
                     onPressed: ()async {
-                      firebaseCall(_emailFromController.text);
+                      if(_subjectController.text.isEmpty){
+                        Fluttertoast.showToast(msg: "Please provide subject");
+                      } else if(_queryController.text.isEmpty){
+                        Fluttertoast.showToast(msg: "Please provide query");
+                      }
+                      if (EmailValidator.validate(_emailToController.text) &&
+                          EmailValidator.validate(_emailFromController.text)){
+                        Fluttertoast.showToast(msg: "Invalid email. Please try again");
+                      }
+                      if (_subjectController.text.isNotEmpty &&
+                      _queryController.text.isNotEmpty &&
+                      EmailValidator.validate(_emailToController.text) &&
+                      EmailValidator.validate(_emailFromController.text)){
+                        firebaseCall();
+                      }
+
                     },
                     child: Text(
                       'Submit',
@@ -123,16 +130,16 @@ class _ContactQueryScreenState extends State<ContactQueryScreen>{
                       ),
                     )
                 ),
-                SizedBox(
-                  height: 50.0,
-                ),
-                Text(
-                  displayText,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: KColors.primaryText,
-                  ),
-                ),
+                // SizedBox(
+                //   height: 50.0,
+                // ),
+                // Text(
+                //   displayText,
+                //   style: TextStyle(
+                //     fontSize: 13,
+                //     color: KColors.primaryText,
+                //   ),
+                // ),
               ],
             )
           ],

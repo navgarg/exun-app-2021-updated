@@ -28,7 +28,7 @@ class _AlumniScreenState extends State<AlumniScreen> {
     print(_alumLoaded);
     if (!_alumLoaded) {
       try {
-        var uri = generateUrl(getAlumsUrl); //todo: change
+        var uri = generateUrl(getAlumsUrl);
         print(uri);
         var value = await get(uri);
         print("value");

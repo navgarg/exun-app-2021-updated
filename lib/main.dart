@@ -49,34 +49,36 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-     home: const TabsScreen(),
-     //  home: StreamBuilder(
-     //      stream: FirebaseAuth.instance.authStateChanges(),
-     //      builder: (context, snapshot) {
-     //        if (!snapshot.hasData){
-     //          //in case null user is returned.
-     //          print("snapshot has data");
-     //          // return LoginScreen();
-     //          return SignInScreen (
-     //            providers: [
-     //              EmailAuthProvider(),
-     //
-     //            ],
-     //            headerBuilder: (context, constraints, shrinkOffset) {
-     //              return Padding(
-     //                padding: const EdgeInsets.all(20),
-     //                child: AspectRatio(
-     //                  aspectRatio: 1,
-     //                  child: Image.asset('assets/logo.png'),
-     //                ),
-     //              );
-     //            },
-     //          );
-     //        }
-     //        //in case of successful authentication.
-     //        return const TabsScreen();
-     //      },
-     //  )
+     //todo: update
+     // home: const TabsScreen(),
+      home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+
+            if (!snapshot.hasData){
+              //in case null user is returned.
+              print("snapshot has data");
+              return LoginScreen();
+              // return SignInScreen (
+              //   providers: [
+              //     EmailAuthProvider(),
+              //
+              //   ],
+              //   headerBuilder: (context, constraints, shrinkOffset) {
+              //     return Padding(
+              //       padding: const EdgeInsets.all(20),
+              //       child: AspectRatio(
+              //         aspectRatio: 1,
+              //         child: Image.asset('assets/logo.png'),
+              //       ),
+              //     );
+              //   },
+              // );
+            }
+            //in case of successful authentication.
+            return const TabsScreen();
+          },
+      )
     );
   }
 }
