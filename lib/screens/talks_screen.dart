@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exun_app_21/widgets/talks_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -37,6 +38,19 @@ class Talk {
     );
   }
 
+  factory Talk.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
+    final data = document.data()!;
+    return Talk(
+        data["title"],
+        data['videoUrl'],
+        data['aboutSpeaker'],
+        data['image'],
+        data['aboutTalk'],
+        data['speaker']
+
+    );
+  }
+
   Map<String, dynamic> toJson() => {
     'title': title,
     'videoUrl': videoUrl,
@@ -53,6 +67,7 @@ class _TalksScreenState extends State<TalksScreen> {
   // late YoutubePlayerController _controller;
 
   List<Talk> _talks = [];
+  final _firestore = FirebaseFirestore.instance;
   bool _talkLoaded = false;
 
   @override
@@ -80,36 +95,42 @@ class _TalksScreenState extends State<TalksScreen> {
     print("talk loaded?");
     print(_talkLoaded);
     if (!_talkLoaded) {
-      try {
-        var uri = generateUrl(getTalksUrl);
-        print(uri);
-        var value = await get(uri);
-        print("value");
-        print(value);
-        print("value");
-        var parsed = json.decode(value.body);
-        print(parsed);
-        print(parsed["statusCode"]);
-        if (parsed["statusCode"] == "S10001") {
-          print("in if");
-          print(parsed["rows"]);
-          _talks = parsed['rows']
-              .map<Talk>((json) => Talk.fromJson(json))
-              .toList();
-          print(_talks);
+      final snapshot = await _firestore.collection("talks").get();
+      print("snapshot");
+      print(snapshot);
+      print(snapshot.docs);
+      _talks = snapshot.docs.map((e) => Talk.fromSnapshot(e)).toList();
+      print(_talks);
+      // try {
+      //   var uri = generateUrl(getTalksUrl);
+      //   print(uri);
+      //   var value = await get(uri);
+      //   print("value");
+      //   print(value);
+      //   print("value");
+      //   var parsed = json.decode(value.body);
+      //   print(parsed);
+      //   print(parsed["statusCode"]);
+      //   if (parsed["statusCode"] == "S10001") {
+      //     print("in if");
+      //     print(parsed["rows"]);
+      //     _talks = parsed['rows']
+      //         .map<Talk>((json) => Talk.fromJson(json))
+      //         .toList();
+      //     print(_talks);
           _talkLoaded = true;
           print(_talkLoaded);
-        }
+      //   }
         setState(() {});
-      } catch (e) {
-        _talks = [];
-        print("error");
-        print(e);
-        print("error");
-        _talkLoaded = true;
-
-        setState(() {});
-      }
+      // } catch (e) {
+      //   _talks = [];
+      //   print("error");
+      //   print(e);
+      //   print("error");
+      //   _talkLoaded = true;
+      //
+      //   setState(() {});
+      // }
     }
   }
 

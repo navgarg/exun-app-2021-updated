@@ -66,6 +66,7 @@ class TalksTile extends StatelessWidget {
               context,
               MaterialPageRoute<Widget>(builder: (BuildContext context) {
                 return Scaffold(
+                  backgroundColor: Colors.white,
                     appBar: AppBar(title: const Text('Exun Talks')),
                     body: Padding(
                       padding: EdgeInsets.all(20.0),

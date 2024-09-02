@@ -41,7 +41,7 @@ class _TabsScreenState extends State<TabsScreen> {
       // page: const LoginScreen(),
      //todo: uncomment and delete loginscreen()
      //page: const ScheduleScreen(),
-      page: ProfileScreen(),
+      page: TalksScreen(),
       title: "Schedule",
       icon: Icons.calendar_today,
     ),
