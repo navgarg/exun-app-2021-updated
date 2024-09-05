@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exun_app_21/screens/contact_screen.dart';
 import 'package:exun_app_21/screens/login_screen.dart';
 import 'package:exun_app_21/screens/members_screen.dart';
 import 'package:exun_app_21/screens/profile_screen.dart';
 import 'package:exun_app_21/screens/schedule_screen.dart';
 import 'package:exun_app_21/screens/talks_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 import '../firebase_notification_handler.dart';
 import 'package:flutter/material.dart';
@@ -39,9 +42,6 @@ class _TabsScreenState extends State<TabsScreen> {
       icon: Icons.home,
     ),
     Page(
-      // page: const LoginScreen(),
-      //todo: uncomment and delete loginscreen()
-      //page: const ScheduleScreen(),
       page: ScheduleScreen(),
       title: "Schedule",
       icon: Icons.calendar_today,
@@ -99,6 +99,20 @@ class _TabsScreenState extends State<TabsScreen> {
     Navigator.of(context).pop();
   }
 
+  var currentUser = FirebaseAuth.instance.currentUser;
+  final _firestore = FirebaseFirestore.instance;
+  var userName, useremail;
+
+  Future<void> getData() async {
+    final snapshot = await _firestore.collection("users").doc(currentUser?.uid).get();
+    print("snapshot");
+    // print(currentUser?.uid);
+    print(snapshot.data());
+    userName = snapshot.data()?["name"];
+    useremail = snapshot.data()?["email"];
+    // print(snapshot);
+  }
+
   @override
   Widget build(BuildContext context) {
     var drawer = <Widget>[];
@@ -113,6 +127,11 @@ class _TabsScreenState extends State<TabsScreen> {
           )
       );
     }
+    
+    getData();
+    print("data");
+    print(useremail);
+    print(userName);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -128,18 +147,22 @@ class _TabsScreenState extends State<TabsScreen> {
       ),
       body: _pages[_selectedPageIndex].page,
       drawer: Drawer(
-        child: Column(
-          children: [
-            const UserAccountsDrawerHeader(accountName: Text("John Doe"), accountEmail: null), //todo: get name from firebase auth
-            Column(
-              children: drawer,
-            )
+        child: FutureBuilder(
+            future: getData(),
+            builder: (ctx, snapshot){
+              return Column(
+                children: [
+                  new UserAccountsDrawerHeader(accountName: Text(userName), accountEmail: Text(useremail)),
+                  Column(
+                    children: drawer,
+                  )
 
-          ],
-        ),
+                ],
+              );
+            })
 
       ),
-      // bottomNavigationBar: BottomNavigationBar( //todo: remove bottom nav
+      // bottomNavigationBar: BottomNavigationBar(
       //   type: BottomNavigationBarType.fixed,
       //   showSelectedLabels: false,
       //   showUnselectedLabels: false,

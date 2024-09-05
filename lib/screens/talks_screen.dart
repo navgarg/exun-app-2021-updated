@@ -159,7 +159,7 @@ class _TalksScreenState extends State<TalksScreen> {
               videoUrl: talk.videoUrl,
               aboutTalk: talk.aboutTalk,
               speaker: talk.speaker,
-              image: talk.image
+              image: talk.image,
             );
           },
         ),

@@ -98,6 +98,8 @@ class _ContactsScreenState extends State<ContactsScreen>{
                   onTap: () => Navigator.of(context).push(
                       new MaterialPageRoute(builder: (BuildContext context) => new ContactQueryScreen(email_to: contact.email,))),
                   child: ListTile(
+                    leading: Image.asset('assets/circuit.png'),
+                    titleAlignment: ListTileTitleAlignment.center,
                     title: Text(
                         contact.name,
                         style: const TextStyle(

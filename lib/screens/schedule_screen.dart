@@ -133,57 +133,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         borderRadius: BorderRadius.circular(8.0),
       ),
     );
-    // return Container(
-    //       width: calendarAppointmentDetails.bounds.width,
-    //       height: calendarAppointmentDetails.bounds.height / 2,
-    //       alignment: Alignment.topLeft,
-    //         decoration: BoxDecoration(
-    //             border: Border.all(
-    //                 color: KColors.border,
-    //                 width: 1,
-    //             ),
-    //           borderRadius: BorderRadius.circular(8.0),
-    //           color: Color(0xFFffffff),
-    //         ),
-    //             child: Padding(
-    //               padding: EdgeInsets.all(15.0),
-    //               child: Column(
-    //               // crossAxisAlignment: CrossAxisAlignment.center,
-    //               children: [
-    //                 // Text(
-    //                   //     appointment.eventName,
-    //                   //     textAlign: TextAlign.left,
-    //                   //     style: TextStyle(
-    //                   //       color: KColors.primaryText,
-    //                   //       fontSize: 16,
-    //                   //       // fontWeight: FontWeight.w600,
-    //                   //     ),
-    //                   // ),
-    //                 Padding(
-    //                   padding: EdgeInsets.only(top: 4.0),
-    //                   child:
-    //                   Text(
-    //                     DateFormat.jm().format(appointment.date).toString(),
-    //                     // textAlign: TextAlign.left,
-    //                     style: TextStyle(
-    //                       fontSize: 13,
-    //                       fontWeight: FontWeight.w500,
-    //                       color: KColors.bodyText,
-    //                   ),
-    //                 ),
-    //                 ),
-    //                 Text(
-    //                   appointment.eventName,
-    //                       // textAlign: TextAlign.left,
-    //                       // style: TextStyle(
-    //                       //   color: KColors.primaryText,
-    //                       //   fontSize: 16,
-    //                       // )
-    //                 )
-    //               ],
-    //             ),
-    //             )
-    //         );
   }
 
   void calendarTapped(CalendarTapDetails details) {
@@ -224,21 +173,43 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ]
               ),
               actions: <Widget>[
-                new TextButton(
-                       onPressed: () {
-                         Navigator.of(context).pop();
-                         },
-                // new FlatButton(
-                //     onPressed: () {
-                //       Navigator.of(context).pop();
-                //     },
-                    child: new Text('close'))
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    new TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        // new FlatButton(
+                        //     onPressed: () {
+                        //       Navigator.of(context).pop();
+                        //     },
+                        child: new Text('Close')),
+                    new TextButton(
+                        onPressed: () async {
+                          participate();
+                        },
+                        // new FlatButton(
+                        //     onPressed: () {
+                        //       Navigator.of(context).pop();
+                        //     },
+                        child: new Text('Participate'))
+                  ],
+                )
               ],
             );
           });
     }
   }
+
+  Future<void> participate() async {
+
+
+    Navigator.of(context).pop();
   }
+  }
+
 
   Future<List<Schedule>> fetchSchedule() async {
     print("fetch");
