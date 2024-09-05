@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen>{
                         }
 
                       }
-                    }, //todo: update onPressed
+                    },
                     child: Text(
                       'Login',
                       style: TextStyle(

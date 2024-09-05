@@ -10,6 +10,7 @@ class ProfileScreen extends StatelessWidget {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
 
+  //todo: get data from firebase.
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class ProfileScreen extends StatelessWidget {
                 TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
-                labelText: 'Password'
+                labelText: 'Name'
                 ),
                 ),
               SizedBox(

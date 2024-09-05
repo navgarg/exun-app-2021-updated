@@ -49,7 +49,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-     //todo: update
      // home: const TabsScreen(),
       home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),

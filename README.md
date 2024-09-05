@@ -5,9 +5,9 @@ Basic App originally made for Exun event 2021. Revamped to include more features
 
 ### Login/Signup
 - Uses `FirebaseAuth` for authentication.
-- Uses `role` property to distinguish between admins and members.
+- Distinguishes between admins and members.
 - Admins cannot sign up. They have to be added by another admin.
-- Credentials for app: 
+- Demo credentials for app: 
 
 ### Schedule
 - Shows upcoming events.
@@ -23,17 +23,9 @@ Basic App originally made for Exun event 2021. Revamped to include more features
 - Shows list of important notifications.
 - Gets notifs data from Firebase Cloud Firestore.
 
-### Members
-- Uses nested `ListView.builder` for displaying all members from different classes.
-- Gets members data from .json file.
-
-### Alumni
-- Uses nested `ListView.builder` for displaying all alumni from different years.
-- Gets alumni data from .json file.
-
-### Faculty
-- Uses nested `ListView.builder` for displaying all faculty members.
-- Gets faculty data from .json file.
+### Members, Alumni, Faculty
+- Uses nested `ListView.builder` for displaying all data in separate screens.
+- Gets data from .json file for each screen.
 
 ### Contacts
 - Gets contacts data from .json file.
