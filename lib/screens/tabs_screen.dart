@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exun_app_21/screens/contact_screen.dart';
-import 'package:exun_app_21/screens/login_screen.dart';
 import 'package:exun_app_21/screens/members_screen.dart';
 import 'package:exun_app_21/screens/profile_screen.dart';
 import 'package:exun_app_21/screens/schedule_screen.dart';

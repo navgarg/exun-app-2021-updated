@@ -30,10 +30,11 @@ class _SignInScreenState extends State<SignInScreen>{
         password: _passwordController.text,
       );
       Fluttertoast.showToast(msg: "Signed in successfully!");
-      final query = <String, String>{
+      final query = <String, dynamic>{
         "email": _emailController.text,
         "name": _nameController.text,
         "role": "Member",
+        "likedTalks": FieldValue.arrayUnion([""]),
       };
       _firestore.collection("users").doc(FirebaseAuth.instance.currentUser?.uid).set(query).onError((e, _) => print("Error $e"));
       print('Signed in with email: ${userCredential.user?.email}');

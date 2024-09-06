@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exun_app_21/widgets/talks_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'dart:convert';
 import 'package:exun_app_21/constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:http/http.dart';
 
 class TalksScreen extends StatefulWidget{
   const TalksScreen({Key? key}) : super(key: key);
@@ -21,10 +18,11 @@ class Talk {
   String aboutTalk;
   String aboutSpeaker;
   String speaker;
+  String talkId;
 
 
   Talk(
-      this.title, this.videoUrl, this.aboutSpeaker, this.image, this.aboutTalk, this.speaker
+      this.title, this.videoUrl, this.aboutSpeaker, this.image, this.aboutTalk, this.speaker, this.talkId
       );
 
   factory Talk.fromJson(Map<String, dynamic> json) {
@@ -34,7 +32,8 @@ class Talk {
       json['aboutSpeaker'],
       json['image'],
       json['aboutTalk'],
-      json['speaker']
+      json['speaker'],
+      json["talkId"]
     );
   }
 
@@ -46,7 +45,8 @@ class Talk {
         data['aboutSpeaker'],
         data['image'],
         data['aboutTalk'],
-        data['speaker']
+        data['speaker'],
+      data["talkId"],
 
     );
   }
@@ -57,7 +57,8 @@ class Talk {
     'aboutTalk': aboutTalk,
     'image': image,
     'aboutSpeaker': aboutSpeaker,
-    'speaker': speaker
+    'speaker': speaker,
+    'talkId': talkId
   };
 }
 
@@ -160,6 +161,7 @@ class _TalksScreenState extends State<TalksScreen> {
               aboutTalk: talk.aboutTalk,
               speaker: talk.speaker,
               image: talk.image,
+              talkId: talk.talkId,
             );
           },
         ),
@@ -167,22 +169,4 @@ class _TalksScreenState extends State<TalksScreen> {
     );
   }
 }
-
-  //   return Scaffold(
-  //     body: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         YoutubePlayer(
-  //             controller: _controller,
-  //             showVideoProgressIndicator: true,
-  //             onReady: () {
-  //               // _controller.addListener(listener);
-  //             },
-  //
-  //         ),
-  //
-  //       ],
-  //     ),
-  //   );
-  // }
   
