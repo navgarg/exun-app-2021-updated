@@ -52,7 +52,7 @@ class _TalksTileState extends State<TalksTile>{
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 38.0, vertical: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
         child: ListTile(
           title: Text("$title",
             style: const TextStyle(
