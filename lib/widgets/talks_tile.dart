@@ -35,8 +35,6 @@ class TalksTile extends StatefulWidget {
 class _TalksTileState extends State<TalksTile>{
 
   //todo: check overflow problem on full screen and otherwise.
-  //todo: check why same vid is being repeated.
-
   @override
   Widget build(BuildContext context) {
     // String icon = "circuit";

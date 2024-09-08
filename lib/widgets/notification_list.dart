@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exun_app_21/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -20,9 +21,10 @@ class Notification {
   String subtitle;
   String message;
   DateTime createdAt;
+  String event;
 
   Notification(
-      {required this.title, required this.message, required this.subtitle, required this.createdAt});
+      {required this.title, required this.message, required this.subtitle, required this.createdAt, required this.event});
 
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
@@ -30,6 +32,7 @@ class Notification {
       subtitle: json['subtitle'],
       message: json['message'],
       createdAt: DateTime.parse(json['created_at']),
+      event: json["event"],
     );
   }
 
@@ -40,6 +43,7 @@ class Notification {
       subtitle: data["subtitle"],
       message: data["message"],
       createdAt: data["created_at"].toDate(),
+      event: data["event"]
 
     );
   }
@@ -49,6 +53,7 @@ class Notification {
         'subtitle': subtitle,
         'message': message,
         'created_at': createdAt.toString(),
+        'event': event,
       };
 }
 
@@ -85,10 +90,30 @@ class _NotificationListState extends State<NotificationList> {
           Notification y = b;
           return y.createdAt.compareTo(x.createdAt);
         });
+       var currentUser = FirebaseAuth.instance.currentUser;
+
+
+        final snap = await _firestore.collection("users").doc(currentUser?.uid).get();
+        print("snapshot");
+        // print(currentUser?.uid);
+        print(snap.data());
+        List<dynamic>? events = snap.data()?["events"].toList();
+        print(_notifications[0].event);
+        print(events);
+        for (var i = 0;  i<_notifications.length; i++){
+          if(!events!.contains(_notifications[i].event)){
+            print("in if");
+            var event = _notifications[i].event;
+            print(event);
+            _notifications.removeWhere((e) => e.event == event);
+          }
+
+        }
         // await putData(_notifications);
         // filteredNotifs = _notifications;
         _notifLoaded = true;
         print(_notifLoaded);
+        print(_notifications);
         // }
         setState(() {});
       // } catch (e) {

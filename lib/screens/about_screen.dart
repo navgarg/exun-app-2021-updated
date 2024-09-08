@@ -21,11 +21,11 @@ class AboutScreen extends StatelessWidget {
         child: SingleChildScrollView(
         child:Column(
         children: [
-          Image.asset('assets/logo.png', width: 141.0),
+          Image.asset('assets/exun_logo.png', width: 141.0),
           const SizedBox(height: 30.0),
           const Text(
-            "Exun 2021-22 is the largest student-run event of its kind, being the latest iteration in our "
-                "series of flagship technology symposiums going back two decades. With Exun 2021, we're "
+            "Exun is the largest student-run event of its kind, being the latest iteration in our "
+                "series of flagship technology symposiums going back two decades. With Exun this year, we're "
                 "international again—participants from all around the globe are coming together to "
                 "deeply investigate and celebrate the essence of technology.",
             style: TextStyle(

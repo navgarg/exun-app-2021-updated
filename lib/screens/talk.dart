@@ -77,6 +77,7 @@ class _TalkPageState extends State<TalkPage>{
       print(likedTalks);
       _firestore.collection("users").doc(currentUser?.uid)
           .set({'likedTalks': likedTalks,
+        'events': snapshot.data()?["events"],
         'name': snapshot.data()?["name"],
         'email': snapshot.data()?["email"],
         'role': snapshot.data()?["role"],

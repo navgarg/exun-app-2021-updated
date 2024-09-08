@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +27,10 @@ List<Schedule> _schedules = <Schedule>[];
 DateTime start = DateTime(2022, 1, 14);
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
+
+  final _firestore = FirebaseFirestore.instance;
+
+
   @override
   Widget build(BuildContext context) {
     if(start.isBefore(DateTime.now())){
@@ -141,6 +148,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       final Schedule appointmentDetails = details.appointments![0];
      String _subject = appointmentDetails.eventName;
      String _content = appointmentDetails.content;
+     String _event = appointmentDetails.event;
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -188,7 +196,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         child: new Text('Close')),
                     new TextButton(
                         onPressed: () async {
-                          participate();
+                          participate(_event);
                         },
                         // new FlatButton(
                         //     onPressed: () {
@@ -203,7 +211,31 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     }
   }
 
-  Future<void> participate() async {
+  Future<void> participate(String event) async {
+
+    var currentUser = FirebaseAuth.instance.currentUser;
+    final snapshot = await _firestore.collection("users").doc(currentUser?.uid).get();
+    print("snapshot");
+    // print(currentUser?.uid);
+    print(snapshot.data());
+    List<dynamic>? events = snapshot.data()?["events"].toList();
+
+    if (events!.contains(event)){
+      Fluttertoast.showToast(msg: "You have already participated in this event");
+    }
+    else{
+      events.add(event);
+      Fluttertoast.showToast(msg: "Successfully added event!");
+    }
+    _firestore.collection("users").doc(currentUser?.uid)
+        .set({'events': events,
+      'likedTalks': snapshot.data()?["likedTalks"],
+      'name': snapshot.data()?["name"],
+      'email': snapshot.data()?["email"],
+      'role': snapshot.data()?["role"],
+    })
+        .then((value) => print("Event Added"))
+        .catchError((error) => print("Failed to add event: $error"));
 
 
     Navigator.of(context).pop();
@@ -289,13 +321,15 @@ class Schedule {
   String eventName;
   DateTime date;
   String content;
+  String event;
 
-  Schedule(this.eventName, this.content, {required this.date});
+  Schedule(this.eventName, this.content, this.event, {required this.date});
 
   factory Schedule.fromJson(Map<String, dynamic> json) {
     return Schedule(
       json['name'],
       json['information'],
+      json['event'],
       date: DateTime.parse(json['date']),
     );
   }
@@ -304,6 +338,7 @@ class Schedule {
     'name': eventName,
     'information': content,
     'date': date.toString(),
+    'event': event,
   };
 
 }

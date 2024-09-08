@@ -35,6 +35,7 @@ class _SignInScreenState extends State<SignInScreen>{
         "name": _nameController.text,
         "role": "Member",
         "likedTalks": FieldValue.arrayUnion([""]),
+        "events": FieldValue.arrayUnion(["general"]), //to show general notifs to all users.
       };
       _firestore.collection("users").doc(FirebaseAuth.instance.currentUser?.uid).set(query).onError((e, _) => print("Error $e"));
       print('Signed in with email: ${userCredential.user?.email}');

@@ -9,10 +9,10 @@ Basic App originally made for Exun event 2021. Revamped to include more features
 - Admins cannot sign up. They have to be added by another admin.
 - Demo credentials for app: 
 
-### Schedule
-- Shows upcoming events.
+### Schedule.
 - Uses `SfCalendar` to show scheduled events on calendar.
 - Gets event data from .json file.
+- User has option of participating in each event. On participating, user will be able to see notifs related to the event.
 
 ### Exun Talks
 - Shows a list of past Exun Talks.
@@ -20,7 +20,7 @@ Basic App originally made for Exun event 2021. Revamped to include more features
 - Gets talks data from firestore.
 
 ### Notifications
-- Shows list of important notifications.
+- Shows list of important notifications according to the events user has participated in.
 - Gets notifs data from Firebase Cloud Firestore.
 
 ### Members, Alumni, Faculty
