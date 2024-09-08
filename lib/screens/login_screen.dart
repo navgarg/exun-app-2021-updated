@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen>{
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image(image: AssetImage("assets/logo.png")),
+                Image(image: AssetImage("assets/exun_logo.png")),
                 SizedBox(
                   height: 40.0,
                 ),
