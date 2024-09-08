@@ -13,6 +13,8 @@ Basic App originally made for Exun event 2021. Revamped to include more features
 - Uses `SfCalendar` to show scheduled events on calendar.
 - Gets event data from .json file.
 - User has option of participating in each event. On participating, user will be able to see notifs related to the event.
+  ![alt text](https://github.com/navgarg/exun-app-2021-updated/blob/masted/schedule_screen.jpeg?raw=true)
+  ![alt text](https://github.com/navgarg/exun-app-2021-updated/blob/masted/schedule_dialog.jpeg?raw=true)
 
 ### Exun Talks
 - Shows a list of past Exun Talks.

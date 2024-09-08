@@ -46,6 +46,7 @@ class _ContactQueryScreenState extends State<ContactQueryScreen>{
     _emailToController.value = TextEditingValue(text: widget.email_to);
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 38.0, vertical: 10.0),
         child: Column(

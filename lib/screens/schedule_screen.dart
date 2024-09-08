@@ -67,9 +67,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                              )
                                        ),
                                        ),
-                                     Flexible(child:
+                                     Flexible(
+                                         child:
                                      SfCalendar(
                                      onTap: calendarTapped,
+                                     backgroundColor: Colors.white,
                                      view: CalendarView.schedule,
                                      appointmentBuilder: appointmentBuilder,
                                      firstDayOfWeek: 5,
