@@ -4,6 +4,7 @@ import 'package:exun_app_21/screens/members_screen.dart';
 import 'package:exun_app_21/screens/profile_screen.dart';
 import 'package:exun_app_21/screens/schedule_screen.dart';
 import 'package:exun_app_21/screens/talks_screen.dart';
+import 'package:exun_app_21/screens/your_events_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
@@ -61,6 +62,11 @@ class _TabsScreenState extends State<TabsScreen> {
       page: ProfileScreen(),
       title: "Profile",
       icon: Icons.account_circle,
+    ),
+    Page(
+      page: YourEventsScreen(),
+      title: "Your Events",
+      icon: Icons.event,
     ),
     Page(
       page: const MembersScreen(),

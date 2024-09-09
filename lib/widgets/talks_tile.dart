@@ -34,7 +34,6 @@ class TalksTile extends StatefulWidget {
 }
 class _TalksTileState extends State<TalksTile>{
 
-  //todo: check overflow problem on full screen and otherwise.
   @override
   Widget build(BuildContext context) {
     // String icon = "circuit";

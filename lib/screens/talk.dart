@@ -50,6 +50,14 @@ class _TalkPageState extends State<TalkPage>{
     final _firestore = FirebaseFirestore.instance;
     var currentUser = FirebaseAuth.instance.currentUser;
 
+    Future<void> checkToggle() async {
+      final snapshot = await _firestore.collection("users").doc(currentUser?.uid).get();
+      List<dynamic>? likedTalks = snapshot.data()?["likedTalks"];
+      if (likedTalks!.contains(talkId)){
+        toggle = true;
+      }
+    }
+
     Future<void> onLike() async {
       setState(() {
         toggle = !toggle;
@@ -82,19 +90,12 @@ class _TalkPageState extends State<TalkPage>{
         'email': snapshot.data()?["email"],
         'role': snapshot.data()?["role"],
       })
-          .then((value) => print("Talk Added"))
+          .then((value) => checkToggle())
           .catchError((error) => print("Failed to add talk: $error"));
       // print(data);
       // Fluttertoast.showToast(msg: "msg");
       print(toggle);
-    }
 
-    Future<void> checkToggle() async {
-      final snapshot = await _firestore.collection("users").doc(currentUser?.uid).get();
-      List<dynamic>? likedTalks = snapshot.data()?["likedTalks"];
-      if (likedTalks!.contains(talkId)){
-        toggle = true;
-       }
     }
 
     _controller = YoutubePlayerController(
@@ -116,71 +117,75 @@ class _TalkPageState extends State<TalkPage>{
               title: const Text('Exun Talks'),
               backgroundColor: Colors.white,
             ),
-            body: Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("$title",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: KColors.primaryText,
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  YoutubePlayer(
-                    controller: _controller,
-                    showVideoProgressIndicator: true,
-                    onReady: (){
-                      // _controller.addListener(listener);
-                    },
-                  ),
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  Text("About the Speaker: ",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: KColors.primaryText
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-
-                  ListTile(
-                    titleAlignment: ListTileTitleAlignment.center,
-                    leading: Image.asset('assets/$image.png'),
-                    title: Text("$speaker",
-                      style: const TextStyle(
-                        fontSize: 15,
+            body: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("$title",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
                         color: KColors.primaryText,
-                      ),),
-                    subtitle: Text(
-                      "$aboutSpeaker",
-                      style: const TextStyle(
-                        color: KColors.bodyText,
-                        fontSize: 13.0,
                       ),
                     ),
-                    isThreeLine: true,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(color: KColors.border, width: 1),
-                      borderRadius: BorderRadius.circular(8.0),
+
+                    SizedBox(
+                      height: 35.0,
                     ),
-                  ),
-                  SizedBox(
-                    height: 55.0,
-                  ),
-                  //        //todo: unfav triggers checkToggle() - fix
-                ],
+                    YoutubePlayer(
+                      controller: _controller,
+                      showVideoProgressIndicator: true,
+                      onReady: (){
+                        // _controller.addListener(listener);
+                      },
+                    ),
+                    SizedBox(
+                      height: 35.0,
+                    ),
+                    Text("About the Speaker: ",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: KColors.primaryText
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+
+                    ListTile(
+                      titleAlignment: ListTileTitleAlignment.center,
+                      leading: Image.asset('assets/$image.png'),
+                      title: Text("$speaker",
+                        style: const TextStyle(
+                          fontSize: 15,
+                          color: KColors.primaryText,
+                        ),),
+                      subtitle: Text(
+                        "$aboutSpeaker",
+                        style: const TextStyle(
+                          color: KColors.bodyText,
+                          fontSize: 13.0,
+                        ),
+                      ),
+                      isThreeLine: true,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(color: KColors.border, width: 1),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 55.0,
+                    ),
+                    //        //todo: unfav triggers checkToggle() - fix
+                  ],
+                ),
               ),
+
             ),
             floatingActionButton: FloatingActionButton(onPressed: () => onLike(),
                 child: toggle ? Icon(Icons.favorite, color: Colors.pink,)

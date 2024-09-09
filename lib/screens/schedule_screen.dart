@@ -54,7 +54,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           : RefreshIndicator(
         onRefresh: () {
           return fetchSchedule();
-        }, child: Padding(
+        },
+        child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: FutureBuilder(
           future: fetchSchedule(),
@@ -191,34 +192,61 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   ]
               ),
               actions: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    new TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        // new FlatButton(
-                        //     onPressed: () {
-                        //       Navigator.of(context).pop();
-                        //     },
-                        child: new Text('Close')),
-                    new TextButton(
-                        onPressed: () async {
-                          participate(appointmentDetails);
-                        },
-                        // new FlatButton(
-                        //     onPressed: () {
-                        //       Navigator.of(context).pop();
-                        //     },
-                        child: new Text('Participate'))
-                  ],
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        new TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            // new FlatButton(
+                            //     onPressed: () {
+                            //       Navigator.of(context).pop();
+                            //     },
+                            child: new Text('Close')),
+                        new TextButton(
+                            onPressed: () async {
+                              participate(appointmentDetails);
+                            },
+                            // new FlatButton(
+                            //     onPressed: () {
+                            //       Navigator.of(context).pop();
+                            //     },
+                            child: new Text('Participate')),
+                        new TextButton(
+                            onPressed: () async {
+                              addtoCalendar(appointmentDetails);
+                            },
+                            // new FlatButton(
+                            //     onPressed: () {
+                            //       Navigator.of(context).pop();
+                            //     },
+                            child: new Text('Add to Calendar'))
+                      ],
+                    )
                 )
               ],
             );
           });
     }
+  }
+
+  void addtoCalendar(Schedule schedule){
+    final event = Event(
+      title: schedule.eventName,
+      description: schedule.content,
+      location: tz.local.toString(),
+      startDate: schedule.date,
+      endDate: schedule.date.add(new Duration(hours: 1)),
+      allDay: false,
+    );
+    Add2Calendar.addEvent2Cal(event);
+    Fluttertoast.showToast(msg: "Successfully added event to calendar!");
+
+    Navigator.of(context).pop();
   }
 
   Future<void> participate(Schedule schedule) async {
@@ -246,52 +274,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         'role': snapshot.data()?["role"],
       }).then((value) => print("Event Added"))
           .catchError((error) => print("Failed to add event: $error"));
-
-      // try {
-      //   var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
-      //   if (permissionsGranted.isSuccess && !permissionsGranted.data!) {
-      //     permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
-      //     if (!permissionsGranted.isSuccess || !permissionsGranted.data!) {
-      //       return;
-      //     }
-      //   }
-
-      // final tzdatetime = tz.TZDateTime.from(schedule.date, tz.local);
-
-      var fightString = new StringBuffer('');
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      // final eventTime = schedule.date;
-      // final event = new Event();
-      // event.title = schedule.eventName;
-      // event.start = tz.TZDateTime.from(eventTime, tz.local);
-      // event.description = schedule.content;
-      // String? eventId = prefs.getString(schedule.eventName.substring(0,4) + schedule.date.toIso8601String());
-      // if (eventId != null) {
-      //   event.eventId = eventId;
-      // }
-      // event.end = tz.TZDateTime.from(eventTime.add(new Duration(hours: 1)), tz.local);
-      // final createEventResult =
-      // await _deviceCalendarPlugin.createOrUpdateEvent(event);
-      // if (createEventResult!.isSuccess &&
-      //     (createEventResult.data?.isNotEmpty ?? false)){
-      //   Fluttertoast.showToast(msg: "Successfully added event to calendar");
-      //   prefs.setString(schedule.eventName.substring(0,4) + schedule.date.toIso8601String(), createEventResult.data!);
-      //   fightString.write(schedule.eventName + '\n');
-      // }
-
-      // } catch (e) {
-      //   print(e);
-      // }
-
-      final event = Event(
-        title: schedule.eventName,
-        description: schedule.content,
-        location: tz.local.toString(),
-        startDate: schedule.date,
-        endDate: schedule.date.add(new Duration(hours: 1)),
-        allDay: false,
-      );
-      Add2Calendar.addEvent2Cal(event);
 
       Navigator.of(context).pop();
     }
