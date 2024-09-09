@@ -178,7 +178,7 @@ class _TalkPageState extends State<TalkPage>{
                   SizedBox(
                     height: 55.0,
                   ),
-                  //         //todo: check why toggle not working
+                  //        //todo: unfav triggers checkToggle() - fix
                 ],
               ),
             ),

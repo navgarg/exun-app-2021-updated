@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/painting.dart';
@@ -8,12 +10,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:exun_app_21/constants.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:add_2_calendar/src/model/event.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:http/http.dart';
-
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
@@ -28,91 +32,95 @@ DateTime start = DateTime(2022, 1, 14);
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
 
+  // DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
   final _firestore = FirebaseFirestore.instance;
+
+  // late List<Calendar> _calendars;
+  // late Calendar _selectedCalendar;
 
 
   @override
   Widget build(BuildContext context) {
-    if(start.isBefore(DateTime.now())){
+    if (start.isBefore(DateTime.now())) {
       start = DateTime.now();
     }
     return FutureBuilder(
-        future: fetchSchedule(),
-        builder: (ctx, snapshot) => snapshot.connectionState == ConnectionState.waiting
-            ? Center(
-          child: CircularProgressIndicator(),
-        )
-            : RefreshIndicator(
-          onRefresh: () {
-              return fetchSchedule();
-                 }, child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                     child: FutureBuilder(
-                       future: fetchSchedule(),
-                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-                         if (snapshot.data != null) {
-                           // return SafeArea(
-                           //   child:
-                             return Column(
-                               crossAxisAlignment: CrossAxisAlignment.start,
-                                   children: [
-                                      Padding(
-                                         padding: EdgeInsets.symmetric(horizontal: 14.0),
-                                         child:  Text(
-                                             "Upcoming:",
-                                             style: TextStyle(
-                                               fontSize: 17.0,
-                                               fontWeight: FontWeight.bold,
-                                               color: KColors.primaryText,
-                                             )
-                                       ),
-                                       ),
-                                     Flexible(
-                                         child:
-                                     SfCalendar(
-                                     onTap: calendarTapped,
-                                     backgroundColor: Colors.white,
-                                     view: CalendarView.schedule,
-                                     appointmentBuilder: appointmentBuilder,
-                                     firstDayOfWeek: 5,
-                                     // showWeekNumber: true,
-                                       weekNumberStyle:WeekNumberStyle(
-                                     // backgroundColor: Colors.blue,
-                                     textStyle: TextStyle(fontSize: 0)
-                         ),
-                                     headerStyle: CalendarHeaderStyle(
-                                         textStyle: TextStyle(fontSize: 0)
-                                     ),
-                                     // initialDisplayDate: DateTime(2022, 1, 14),
-                                     minDate: start,
-                                     scheduleViewSettings: ScheduleViewSettings(
-                                       // appointmentTextStyle: TextStyle(
-                                       //     fontWeight: FontWeight.w700,
-                                       //     height: 1.5,
-                                       //     color: Colors.black
-                                       // ),
-                                       appointmentItemHeight: 70,
-                                       hideEmptyScheduleWeek: true,
-                                     ),
-                                     dataSource: ScheduleDataSource(snapshot.data),
-                                   )
-                                     )
-                                   ]
-                             // )
-                           );
-                         }
+      future: fetchSchedule(),
+      builder: (ctx, snapshot) =>
+      snapshot.connectionState == ConnectionState.waiting
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+          : RefreshIndicator(
+        onRefresh: () {
+          return fetchSchedule();
+        }, child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: FutureBuilder(
+          future: fetchSchedule(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data != null) {
+              // return SafeArea(
+              //   child:
+              return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 14.0),
+                      child: Text(
+                          "Upcoming:",
+                          style: TextStyle(
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.bold,
+                            color: KColors.primaryText,
+                          )
+                      ),
+                    ),
+                    Flexible( //todo: check why widet doesnt appear on first go
+                        child: SfCalendar(
+                          onTap: calendarTapped,
+                          backgroundColor: Colors.white,
+                          view: CalendarView.schedule,
+                          appointmentBuilder: appointmentBuilder,
+                          firstDayOfWeek: 5,
+                          // showWeekNumber: true,
+                          weekNumberStyle: WeekNumberStyle(
+                            // backgroundColor: Colors.blue,
+                              textStyle: TextStyle(fontSize: 0)
+                          ),
+                          headerStyle: CalendarHeaderStyle(
+                              textStyle: TextStyle(fontSize: 0)
+                          ),
+                          // initialDisplayDate: DateTime(2022, 1, 14),
+                          minDate: start,
+                          scheduleViewSettings: ScheduleViewSettings(
+                            // appointmentTextStyle: TextStyle(
+                            //     fontWeight: FontWeight.w700,
+                            //     height: 1.5,
+                            //     color: Colors.black
+                            // ),
+                            appointmentItemHeight: 70,
+                            hideEmptyScheduleWeek: true,
+                          ),
+                          dataSource: ScheduleDataSource(snapshot.data),
+                        )
+                    )
+                  ]
+                // )
+              );
+            }
 
-                         else {
-                           return Container(
-                             child: Center(
-                               child: Text(''),
-                             ),
-                           );
-                         }
-                         },
-                     ),
+            else {
+              return Container(
+                child: Center(
+                  child: Text(''),
+                ),
+              );
+            }
+          },
         ),
-        ),
+      ),
+      ),
     );
   }
 
@@ -123,7 +131,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     return ListTile(
       // leading: Image.asset('assets/circuit.png'),
       title: Text(
-      appointment.eventName,
+        appointment.eventName,
         style: const TextStyle(
           fontSize: 16,
           color: KColors.primaryText,
@@ -148,39 +156,39 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     if (details.targetElement == CalendarElement.appointment ||
         details.targetElement == CalendarElement.agenda) {
       final Schedule appointmentDetails = details.appointments![0];
-     String _subject = appointmentDetails.eventName;
-     String _content = appointmentDetails.content;
-     String _event = appointmentDetails.event;
+      String _subject = appointmentDetails.eventName;
+      String _content = appointmentDetails.content;
+      String _event = appointmentDetails.event;
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Container(child: new Text('$_subject')),
               content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                // height: 155,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: new Text(
-                              '$_content',
-                              // overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                              ),
-                            ),
-                         )
-                      ],
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      // height: 155,
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: new Text(
+                                  '$_content',
+                                  // overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ]
+                  ]
               ),
               actions: <Widget>[
                 Row(
@@ -198,7 +206,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         child: new Text('Close')),
                     new TextButton(
                         onPressed: () async {
-                          participate(_event);
+                          participate(appointmentDetails);
                         },
                         // new FlatButton(
                         //     onPressed: () {
@@ -213,71 +221,119 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     }
   }
 
-  Future<void> participate(String event) async {
-
+  Future<void> participate(Schedule schedule) async {
     var currentUser = FirebaseAuth.instance.currentUser;
-    final snapshot = await _firestore.collection("users").doc(currentUser?.uid).get();
+    final snapshot = await _firestore.collection("users")
+        .doc(currentUser?.uid)
+        .get();
     print("snapshot");
     // print(currentUser?.uid);
     print(snapshot.data());
     List<dynamic>? events = snapshot.data()?["events"].toList();
 
-    if (events!.contains(event)){
-      Fluttertoast.showToast(msg: "You have already participated in this event");
+    if (events!.contains(schedule.event)) {
+      Fluttertoast.showToast(
+          msg: "You have already participated in this event");
     }
-    else{
-      events.add(event);
+    else {
+      events.add(schedule.event);
       Fluttertoast.showToast(msg: "Successfully added event!");
+      _firestore.collection("users").doc(currentUser?.uid)
+          .set({'events': events,
+        'likedTalks': snapshot.data()?["likedTalks"],
+        'name': snapshot.data()?["name"],
+        'email': snapshot.data()?["email"],
+        'role': snapshot.data()?["role"],
+      }).then((value) => print("Event Added"))
+          .catchError((error) => print("Failed to add event: $error"));
+
+      // try {
+      //   var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
+      //   if (permissionsGranted.isSuccess && !permissionsGranted.data!) {
+      //     permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
+      //     if (!permissionsGranted.isSuccess || !permissionsGranted.data!) {
+      //       return;
+      //     }
+      //   }
+
+      // final tzdatetime = tz.TZDateTime.from(schedule.date, tz.local);
+
+      var fightString = new StringBuffer('');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      // final eventTime = schedule.date;
+      // final event = new Event();
+      // event.title = schedule.eventName;
+      // event.start = tz.TZDateTime.from(eventTime, tz.local);
+      // event.description = schedule.content;
+      // String? eventId = prefs.getString(schedule.eventName.substring(0,4) + schedule.date.toIso8601String());
+      // if (eventId != null) {
+      //   event.eventId = eventId;
+      // }
+      // event.end = tz.TZDateTime.from(eventTime.add(new Duration(hours: 1)), tz.local);
+      // final createEventResult =
+      // await _deviceCalendarPlugin.createOrUpdateEvent(event);
+      // if (createEventResult!.isSuccess &&
+      //     (createEventResult.data?.isNotEmpty ?? false)){
+      //   Fluttertoast.showToast(msg: "Successfully added event to calendar");
+      //   prefs.setString(schedule.eventName.substring(0,4) + schedule.date.toIso8601String(), createEventResult.data!);
+      //   fightString.write(schedule.eventName + '\n');
+      // }
+
+      // } catch (e) {
+      //   print(e);
+      // }
+
+      final event = Event(
+        title: schedule.eventName,
+        description: schedule.content,
+        location: tz.local.toString(),
+        startDate: schedule.date,
+        endDate: schedule.date.add(new Duration(hours: 1)),
+        allDay: false,
+      );
+      Add2Calendar.addEvent2Cal(event);
+
+      Navigator.of(context).pop();
     }
-    _firestore.collection("users").doc(currentUser?.uid)
-        .set({'events': events,
-      'likedTalks': snapshot.data()?["likedTalks"],
-      'name': snapshot.data()?["name"],
-      'email': snapshot.data()?["email"],
-      'role': snapshot.data()?["role"],
-    })
-        .then((value) => print("Event Added"))
-        .catchError((error) => print("Failed to add event: $error"));
-
-
-    Navigator.of(context).pop();
   }
-  }
+}
 
 
   Future<List<Schedule>> fetchSchedule() async {
     print("fetch");
-      try {
-        var uri = Uri.parse(getScheduleUrl);
-        print(uri);
-        var value = await get(uri);
-        print("value");
-        print(value);
-        print("value");
-        var parsed = json.decode(value.body);
-        print(parsed);
-        _schedules = parsed['rows']
-            .map<Schedule>((json) => Schedule.fromJson(json))
-            .toList();
-        _schedules.sort((a, b) {
-          Schedule x = a;
-          Schedule y = b;
-          return x.date.compareTo(y.date);
-        });
-        _schedules.removeWhere((element) => element.date.isBefore(DateTime.now()));
-        // print(_schedules.length);
-        // print(_schedules[0].eventName);
-        start = _schedules[0].date;
-        // print("start");
-        // print(start);
-      } catch (e) {
-        _schedules = [];
-        print("error");
-        print(e);
-        print("error");
-      }
+    try {
+      var uri = Uri.parse(getScheduleUrl);
+      print(uri);
+      var value = await get(uri);
+      print("value");
+      print(value);
+      print("value");
+      var parsed = json.decode(value.body);
+      print(parsed);
+      _schedules = parsed['rows']
+          .map<Schedule>((json) => Schedule.fromJson(json))
+          .toList();
+      _schedules.sort((a, b) {
+        Schedule x = a;
+        Schedule y = b;
+        return x.date.compareTo(y.date);
+      });
+      _schedules.removeWhere((element) =>
+          element.date.isBefore(DateTime.now()));
+      // print(_schedules.length);
+      // print(_schedules[0].eventName);
+      start = _schedules[0].date;
+      // print("start");
+      // print(start);
+    } catch (e) {
+      _schedules = [];
+      print("error");
+      print(e);
+      print("error");
+    }
     return _schedules;
   }
+
 
 class ScheduleDataSource extends CalendarDataSource {
   ScheduleDataSource(List<Schedule> source) {

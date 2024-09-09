@@ -49,6 +49,9 @@ dependencies:
   firebase_database: ^10.5.7
   cloud_firestore: ^4.9.3
   fluttertoast: ^8.2.8
+  device_calendar: ^4.3.2
+  add_2_calendar: ^3.0.1
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:

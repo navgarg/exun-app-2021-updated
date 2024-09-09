@@ -143,7 +143,7 @@ class _TalksScreenState extends State<TalksScreen> with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
 
-    //todo: unfavourite doesnt get data immediately: fix.
+    //todo: unfavourite doesnt get data immediately: fix. -
     List<String> fav = ["Favourites", "Non-Favourites"];
     return FutureBuilder(
       future: fetchTalks(),
