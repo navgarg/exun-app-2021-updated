@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:exun_app_21/constants.dart';
-import 'package:exun_app_21/screens/contact_query_screen.dart';
+import 'package:exun_app_21/support_screens/contact_query_screen.dart';
 import 'package:exun_app_21/widgets/members_tile.dart';
 import 'package:exun_app_21/widgets/notification_dialog.dart';
 import 'package:flutter/material.dart';

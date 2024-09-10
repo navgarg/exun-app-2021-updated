@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:exun_app_21/screens/talk.dart';
+import 'package:exun_app_21/support_screens/talk.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../constants.dart';
-import '../screens/talks_screen.dart';
+import '../main_screens/talks_screen.dart';
 
 class TalksTile extends StatefulWidget {
   final String title;

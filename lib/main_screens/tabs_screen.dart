@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:exun_app_21/screens/contact_screen.dart';
-import 'package:exun_app_21/screens/members_screen.dart';
-import 'package:exun_app_21/screens/profile_screen.dart';
-import 'package:exun_app_21/screens/schedule_screen.dart';
-import 'package:exun_app_21/screens/talks_screen.dart';
-import 'package:exun_app_21/screens/your_events_screen.dart';
+import 'package:exun_app_21/main_screens/contact_screen.dart';
+import 'package:exun_app_21/main_screens/members_screen.dart';
+import 'package:exun_app_21/main_screens/profile_screen.dart';
+import 'package:exun_app_21/main_screens/schedule_screen.dart';
+import 'package:exun_app_21/main_screens/talks_screen.dart';
+import 'package:exun_app_21/main_screens/your_events_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 

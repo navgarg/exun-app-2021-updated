@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exun_app_21/support_screens/add_schedule.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
@@ -29,11 +30,13 @@ class ScheduleScreen extends StatefulWidget {
 //todo: check why update occurs after 2nd click
 List<Schedule> _schedules = <Schedule>[];
 DateTime start = DateTime(2022, 1, 14);
+var currentUser = FirebaseAuth.instance.currentUser;
+final _firestore = FirebaseFirestore.instance;
+String _role = "member";
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
 
   // DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-  final _firestore = FirebaseFirestore.instance;
 
   // late List<Calendar> _calendars;
   // late Calendar _selectedCalendar;
@@ -55,72 +58,84 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         onRefresh: () {
           return fetchSchedule();
         },
-        child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: FutureBuilder(
-          future: fetchSchedule(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data != null) {
-              // return SafeArea(
-              //   child:
-              return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 14.0),
-                      child: Text(
-                          "Upcoming:",
-                          style: TextStyle(
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.bold,
-                            color: KColors.primaryText,
-                          )
-                      ),
-                    ),
-                    Flexible( //todo: check why widet doesnt appear on first go
-                        child: SfCalendar(
-                          onTap: calendarTapped,
-                          backgroundColor: Colors.white,
-                          view: CalendarView.schedule,
-                          appointmentBuilder: appointmentBuilder,
-                          firstDayOfWeek: 5,
-                          // showWeekNumber: true,
-                          weekNumberStyle: WeekNumberStyle(
-                            // backgroundColor: Colors.blue,
-                              textStyle: TextStyle(fontSize: 0)
-                          ),
-                          headerStyle: CalendarHeaderStyle(
-                              textStyle: TextStyle(fontSize: 0)
-                          ),
-                          // initialDisplayDate: DateTime(2022, 1, 14),
-                          minDate: start,
-                          scheduleViewSettings: ScheduleViewSettings(
-                            // appointmentTextStyle: TextStyle(
-                            //     fontWeight: FontWeight.w700,
-                            //     height: 1.5,
-                            //     color: Colors.black
-                            // ),
-                            appointmentItemHeight: 70,
-                            hideEmptyScheduleWeek: true,
-                          ),
-                          dataSource: ScheduleDataSource(snapshot.data),
-                        )
-                    )
-                  ]
-                // )
-              );
-            }
+        child: Scaffold(
 
-            else {
-              return Container(
-                child: Center(
-                  child: Text(''),
-                ),
-              );
-            }
-          },
-        ),
-      ),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: FutureBuilder(
+              future: fetchSchedule(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data != null) {
+                  // return SafeArea(
+                  //   child:
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 14.0),
+                          child: Text(
+                              "Upcoming:",
+                              style: TextStyle(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold,
+                                color: KColors.primaryText,
+                              )
+                          ),
+                        ),
+                        Flexible( //todo: check why widget doesnt appear on first go
+                            child: SfCalendar(
+                              onTap: calendarTapped,
+                              backgroundColor: Colors.white,
+                              view: CalendarView.schedule,
+                              appointmentBuilder: appointmentBuilder,
+                              firstDayOfWeek: 5,
+                              // showWeekNumber: true,
+                              weekNumberStyle: WeekNumberStyle(
+                                // backgroundColor: Colors.blue,
+                                  textStyle: TextStyle(fontSize: 0)
+                              ),
+                              headerStyle: CalendarHeaderStyle(
+                                  textStyle: TextStyle(fontSize: 0)
+                              ),
+                              // initialDisplayDate: DateTime(2022, 1, 14),
+                              minDate: start,
+                              scheduleViewSettings: ScheduleViewSettings(
+                                // appointmentTextStyle: TextStyle(
+                                //     fontWeight: FontWeight.w700,
+                                //     height: 1.5,
+                                //     color: Colors.black
+                                // ),
+                                appointmentItemHeight: 70,
+                                hideEmptyScheduleWeek: true,
+                              ),
+                              dataSource: ScheduleDataSource(snapshot.data),
+                            )
+                        )
+                      ]
+                    // )
+                  );
+                }
+
+                else {
+                  return Container(
+                    child: Center(
+                      child: Text(''),
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+
+          floatingActionButton:
+          _role == "admin"
+              ? FloatingActionButton(
+            onPressed: () => Navigator.of(context).push(
+                new MaterialPageRoute(builder: (BuildContext context) => new AddScheduleScreen())),
+            child: Icon(Icons.add),
+          )
+              : Container()
+        )
       ),
     );
   }
@@ -282,6 +297,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
 
   Future<List<Schedule>> fetchSchedule() async {
+    final snapshot = await _firestore.collection("users").doc(currentUser?.uid).get();
+    print("snapshot");
+    // print(currentUser?.uid);
+    print(snapshot.data());
+    _role = snapshot.data()!["role"].toString();
+
     print("fetch");
     try {
       var uri = Uri.parse(getScheduleUrl);
