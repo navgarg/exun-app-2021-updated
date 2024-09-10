@@ -5,8 +5,8 @@ import 'package:exun_app_21/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import './screens/tabs_screen.dart';
-import './screens/login_screen.dart';
+import './main_screens/tabs_screen.dart';
+import './main_screens/login_screen.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'firebase_options.dart';
 
