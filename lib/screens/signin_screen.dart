@@ -9,7 +9,8 @@ import 'login_screen.dart';
 
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+  final String role;
+  const SignInScreen({Key? key, required this.role,}) : super(key: key);
 
   @override
   _SignInScreenState createState() => _SignInScreenState();
@@ -33,7 +34,7 @@ class _SignInScreenState extends State<SignInScreen>{
       final query = <String, dynamic>{
         "email": _emailController.text,
         "name": _nameController.text,
-        "role": "Member",
+        "role": widget.role,
         "likedTalks": FieldValue.arrayUnion([""]),
         "events": FieldValue.arrayUnion(["general"]), //to show general notifs to all users.
       };
@@ -69,6 +70,10 @@ class _SignInScreenState extends State<SignInScreen>{
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Image(image: AssetImage("assets/exun_logo.png")),
+                SizedBox(
+                  height: 40.0,
+                ),
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(

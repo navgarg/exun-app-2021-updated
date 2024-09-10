@@ -88,7 +88,9 @@ class _YourEventsScreenState extends State<YourEventsScreen>{
             : RefreshIndicator(
             child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-              child: ListView.builder(
+              child: 
+              _eventsList.length !=0
+              ?ListView.builder(
                 shrinkWrap: true,
                   itemCount: _eventsList.length,
                   physics: ClampingScrollPhysics(),
@@ -122,7 +124,10 @@ class _YourEventsScreenState extends State<YourEventsScreen>{
                     ),);
 
                   }
-              ),
+              )
+                  : Container(
+                child: Text("No events to show"),
+              )
             ),
             onRefresh: () {
               return getEvents();

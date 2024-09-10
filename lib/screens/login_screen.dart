@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen>{
                 ),
                 TextButton(
                     onPressed: () => Navigator.of(context).push(
-                        new MaterialPageRoute(builder: (BuildContext context) => new SignInScreen())),
+                        new MaterialPageRoute(builder: (BuildContext context) => new SignInScreen(role: "member"))),
                     child: Text(
                         "Not a user? Register.",
                       style: TextStyle(
