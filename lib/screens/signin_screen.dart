@@ -31,12 +31,15 @@ class _SignInScreenState extends State<SignInScreen>{
         password: _passwordController.text,
       );
       Fluttertoast.showToast(msg: "Signed in successfully!");
+      List<String> events = [];
+      widget.role == "admin" ? events = ["general", "quiz", "appdev", "cross", "lockout", "surprise", "gd", "make-a-thon", "cubing", "turing", "ds+", "hackathon", "cp", "spacetech", "design"]
+          : events = ["general"];
       final query = <String, dynamic>{
         "email": _emailController.text,
         "name": _nameController.text,
         "role": widget.role,
         "likedTalks": FieldValue.arrayUnion([""]),
-        "events": FieldValue.arrayUnion(["general"]), //to show general notifs to all users.
+        "events": FieldValue.arrayUnion(events), //to show general notifs to all users.
       };
       _firestore.collection("users").doc(FirebaseAuth.instance.currentUser?.uid).set(query).onError((e, _) => print("Error $e"));
       print('Signed in with email: ${userCredential.user?.email}');

@@ -65,7 +65,7 @@ class _TabsScreenState extends State<TabsScreen> {
     ),
     Page(
       page: YourEventsScreen(),
-      title: "Your Events",
+      title: "My Events",
       icon: Icons.event,
     ),
     Page(

@@ -101,14 +101,19 @@ class _NotificationListState extends State<NotificationList> {
         print(_notifications[0].event);
         print(events);
         for (var i = 0;  i<_notifications.length; i++){
+          print(_notifications[i].event);
           if(!events!.contains(_notifications[i].event)){
             print("in if");
             var event = _notifications[i].event;
             print(event);
             _notifications.removeWhere((e) => e.event == event);
           }
+          else{
+            print(_notifications[i].event);
+          }
 
         }
+        print(_notifications[0].event);
         // await putData(_notifications);
         // filteredNotifs = _notifications;
         _notifLoaded = true;

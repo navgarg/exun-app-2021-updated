@@ -86,11 +86,14 @@ class _YourEventsScreenState extends State<YourEventsScreen>{
           child: CircularProgressIndicator(),
         )
             : RefreshIndicator(
-            child: SingleChildScrollView(
+            onRefresh: () {
+              return getEvents();
+            },
+            child:
+            _eventsList.length !=0
+            ?SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-              child: 
-              _eventsList.length !=0
-              ?ListView.builder(
+              child: ListView.builder(
                 shrinkWrap: true,
                   itemCount: _eventsList.length,
                   physics: ClampingScrollPhysics(),
@@ -124,14 +127,19 @@ class _YourEventsScreenState extends State<YourEventsScreen>{
                     ),);
 
                   }
+              ),
+
+            )
+                  : Center(
+                child: Text(
+                    "No events to show",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: KColors.primaryText,
+                  ),),
               )
-                  : Container(
-                child: Text("No events to show"),
-              )
-            ),
-            onRefresh: () {
-              return getEvents();
-            })
+        )
+
     );
   }
 
