@@ -116,64 +116,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     // )
                   );
                 }
-        child: Scaffold(
-
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: FutureBuilder(
-              future: fetchSchedule(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.data != null) {
-                  // return SafeArea(
-                  //   child:
-                  return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 14.0),
-                          child: Text(
-                              "Upcoming:",
-                              style: TextStyle(
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.bold,
-                                color: KColors.primaryText,
-                              )
-                          ),
-                        ),
-                        Flexible( //todo: check why widget doesnt appear on first go
-                            child: SfCalendar(
-                              onTap: calendarTapped,
-                              backgroundColor: Colors.white,
-                              view: CalendarView.schedule,
-                              appointmentBuilder: appointmentBuilder,
-                              firstDayOfWeek: 5,
-                              // showWeekNumber: true,
-                              weekNumberStyle: WeekNumberStyle(
-                                // backgroundColor: Colors.blue,
-                                  textStyle: TextStyle(fontSize: 0)
-                              ),
-                              headerStyle: CalendarHeaderStyle(
-                                  textStyle: TextStyle(fontSize: 0)
-                              ),
-                              // initialDisplayDate: DateTime(2022, 1, 14),
-                              minDate: start,
-                              scheduleViewSettings: ScheduleViewSettings(
-                                // appointmentTextStyle: TextStyle(
-                                //     fontWeight: FontWeight.w700,
-                                //     height: 1.5,
-                                //     color: Colors.black
-                                // ),
-                                appointmentItemHeight: 70,
-                                hideEmptyScheduleWeek: true,
-                              ),
-                              dataSource: ScheduleDataSource(snapshot.data),
-                            )
-                        )
-                      ]
-                    // )
-                  );
-                }
-
                 else {
                   return Container(
                     child: Center(
@@ -185,16 +127,16 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ),
           ),
 
-          // floatingActionButton:
-          // _role == "admin"
-          //     ? FloatingActionButton(
-          //   onPressed: () => Navigator.of(context).push(
-          //       new MaterialPageRoute(builder: (BuildContext context) => new AddScheduleScreen(schedules: _schedules))),
-          //   child: Icon(Icons.add),
-          // )
-          //     : Container()
-        ),
+            // floatingActionButton:
+            // _role == "admin"
+            //     ? FloatingActionButton(
+            //   onPressed: () => Navigator.of(context).push(
+            //       new MaterialPageRoute(builder: (BuildContext context) => new AddScheduleScreen(schedules: _schedules,))),
+            //   child: Icon(Icons.add),
+            // )
+            //     : Container()
       ),
+      )
     );
   }
 
