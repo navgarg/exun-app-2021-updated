@@ -42,6 +42,14 @@ class AddScheduleScreen extends StatelessWidget {
 
       // return file;
 
+    // _firestore.collection("notifications").doc().set(query).onError((e, _) => print("Error $e"));
+    // _nameController.value = TextEditingValue(text: "");
+    // _infoController.value = TextEditingValue(text: "");
+    // _eventController.value = TextEditingValue(text: "");
+    // _dateController.value = TextEditingValue(text: "");
+    // setState( () {
+    //   displayText = "Successfully submitted query!";
+    // });
     Fluttertoast.showToast(msg: "Successfully added schedule!");
   }
 
