@@ -143,8 +143,8 @@ class _NotificationListState extends State<NotificationList> {
     CollectionReference notifs_ref = FirebaseFirestore.instance.collection('notifications');
 
     return FutureBuilder(
-      // future: fetchNotifs(),
-      future: notifs_ref.get(),
+      future: fetchNotifs(),
+      // future: notifs_ref.get(),
       builder: (ctx, snapshot) =>
           snapshot.connectionState == ConnectionState.waiting
               ? Center(

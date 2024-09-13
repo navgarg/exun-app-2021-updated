@@ -25,7 +25,7 @@ const String getTalksUrl = '/navgarg/ExunEvents2021/main/talks.json';
 const String getMembersUrl = '/exunclan/website-2022/main/data/members.json';
 const String getAlumsUrl = '/navgarg/ExunEvents2021/main/alumni.json';
 const String getFacultyUrl = '/navgarg/ExunEvents2021/main/faculty.json';
-const String getContactsUrl = '/exunclan/website-2022/main/data/contacts.json';
+const String getContactsUrl = '/navgarg/exun-app-2021-updated/master/contacts.json';
 
 const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/exun-app-2021-updated/master/events.json";
 // const String getScheduleUrl = "https://raw.githubusercontent.com/navgarg/ExunEvents/main/events.json";
