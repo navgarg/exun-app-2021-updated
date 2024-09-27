@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:exun_app_21/constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+
+import '../redux/store.dart';
 
 class TalksScreen extends StatefulWidget{
   const TalksScreen({Key? key}) : super(key: key);
@@ -11,6 +14,9 @@ class TalksScreen extends StatefulWidget{
   @override
   State<TalksScreen> createState() => _TalksScreenState();
 }
+
+//todo: use state for liked/favourite talks.
+//todo: use state for get role.
 
 class Talk {
   String title;
@@ -142,66 +148,147 @@ class _TalksScreenState extends State<TalksScreen> with WidgetsBindingObserver{
 
   @override
   Widget build(BuildContext context) {
-
-    //todo: unfavourite doesnt get data immediately: fix. -
     List<String> fav = ["Favourites", "Non-Favourites"];
-    return FutureBuilder(
-      future: fetchTalks(),
-      builder: (ctx, snapshot) =>
-      snapshot.connectionState == ConnectionState.waiting
-          ? Center(
-        child: CircularProgressIndicator(),
-      )
-          : RefreshIndicator(
-        onRefresh: () {
-          _talkLoaded = false;
-          return fetchTalks();
-        },
-          child: ListView.builder(
-              itemCount: 2,
-              physics: ClampingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                List<Talk> talks;
-                index == 0 ? talks = _likedTalks : talks = _unlikedTalks;
-                return Padding(
-                  key: UniqueKey(),
-                    padding: EdgeInsets.symmetric(horizontal: 38.0, vertical: 10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        fav[index],
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: KColors.primaryText,
-                        ),
-                      ),
-                      ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: talks.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          Talk talk = talks[index];
-                          // print("talk sent");
-                          return TalksTile(
-                            title: talk.title,
-                            aboutSpeaker: talk.aboutSpeaker,
-                            videoUrl: talk.videoUrl,
-                            aboutTalk: talk.aboutTalk,
-                            speaker: talk.speaker,
-                            image: talk.image,
-                            talkId: talk.talkId,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              }
+    return StoreProvider<AppState>(
+        store: Redux.store,
+        child: Scaffold(
+          body: Column(
+            children: [
+              StoreConnector<AppState, bool>(
+                distinct: true,
+                converter: (store) => store.state.talksState.isLoading,
+                builder: (context, isLoading) =>
+                  isLoading ? CircularProgressIndicator()
+                   : SizedBox.shrink()
+              ),
+              StoreConnector<AppState, bool>(
+                distinct: true,
+                converter: (store) => store.state.talksState.isError,
+                builder: (context, isError) {
+                  if (isError) {
+                    return Text("Failed to get talks");
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
+              ),
+              Expanded(
+                child: StoreConnector<AppState, List<Talk>>(
+                  distinct: true,
+                  converter: (store) => store.state.talksState.talks,
+                  builder: (context, talks) {
+                    return
+                      // ListView.builder(
+                                  // itemCount: 2,
+                                  // physics: ClampingScrollPhysics(),
+                                  // itemBuilder: (BuildContext context, int index) {
+                                  //   List<Talk> talks;
+                                  //   index == 0 ? talks = _likedTalks : talks = _unlikedTalks;
+                                  //   return Padding(
+                                  //     key: UniqueKey(),
+                                  //       padding: EdgeInsets.symmetric(horizontal: 38.0, vertical: 10.0),
+                                  //     child: Column(
+                                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                                  //       children: [
+                                  //         Text(
+                                  //           fav[index],
+                                  //           style: const TextStyle(
+                                  //             fontSize: 17,
+                                  //             fontWeight: FontWeight.bold,
+                                  //             color: KColors.primaryText,
+                                  //           ),
+                                  //         ),
+                                          ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                            shrinkWrap: true,
+                                            itemCount: talks.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              Talk talk = talks[index];
+                                              // print("talk sent");
+                                              return TalksTile(
+                                                title: talk.title,
+                                                aboutSpeaker: talk.aboutSpeaker,
+                                                videoUrl: talk.videoUrl,
+                                                aboutTalk: talk.aboutTalk,
+                                                speaker: talk.speaker,
+                                                image: talk.image,
+                                                talkId: talk.talkId,
+                                              );
+                                            },
+                                          );
+                                        // ],
+                                      // ),
+                                    // );
+                                  // });
+                  },
+                ),
+              ),
+            ],
           ),
-      ),
+        )
     );
+
+
+
+
+
+    //   FutureBuilder(
+    //   future: fetchTalks(),
+    //   builder: (ctx, snapshot) =>
+    //   snapshot.connectionState == ConnectionState.waiting
+    //       ? Center(
+    //     child: CircularProgressIndicator(),
+    //   )
+    //       : RefreshIndicator(
+    //     onRefresh: () {
+    //       _talkLoaded = false;
+    //       return fetchTalks();
+    //     },
+    //       child: ListView.builder(
+    //           itemCount: 2,
+    //           physics: ClampingScrollPhysics(),
+    //           itemBuilder: (BuildContext context, int index) {
+    //             List<Talk> talks;
+    //             index == 0 ? talks = _likedTalks : talks = _unlikedTalks;
+    //             return Padding(
+    //               key: UniqueKey(),
+    //                 padding: EdgeInsets.symmetric(horizontal: 38.0, vertical: 10.0),
+    //               child: Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                 children: [
+    //                   Text(
+    //                     fav[index],
+    //                     style: const TextStyle(
+    //                       fontSize: 17,
+    //                       fontWeight: FontWeight.bold,
+    //                       color: KColors.primaryText,
+    //                     ),
+    //                   ),
+    //                   ListView.builder(
+    //                     scrollDirection: Axis.vertical,
+    //                     shrinkWrap: true,
+    //                     itemCount: talks.length,
+    //                     itemBuilder: (BuildContext context, int index) {
+    //                       Talk talk = talks[index];
+    //                       // print("talk sent");
+    //                       return TalksTile(
+    //                         title: talk.title,
+    //                         aboutSpeaker: talk.aboutSpeaker,
+    //                         videoUrl: talk.videoUrl,
+    //                         aboutTalk: talk.aboutTalk,
+    //                         speaker: talk.speaker,
+    //                         image: talk.image,
+    //                         talkId: talk.talkId,
+    //                       );
+    //                     },
+    //                   ),
+    //                 ],
+    //               ),
+    //             );
+    //           }
+    //       ),
+    //   ),
+    // );
   }
 }
   

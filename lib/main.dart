@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exun_app_21/constants.dart';
+import 'package:exun_app_21/redux/store.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   FirebaseFirestore.instance.settings = Settings(
     persistenceEnabled: true,
   );
+  await Redux.init();
   print("after initialise");
   runApp(const MyApp());
 
